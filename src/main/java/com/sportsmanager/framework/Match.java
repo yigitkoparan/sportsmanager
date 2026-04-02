@@ -11,4 +11,5 @@ public abstract class Match {
             this.awayTeam = awayTeam;
         }
 
+        public abstract void simulate();
 }
