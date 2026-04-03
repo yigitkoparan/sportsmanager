@@ -7,8 +7,8 @@ public class FootballPlayer extends Player{
         private int goals;
         private int assists;
 
-        public FootballPlayer(String name, int age, int skillLevel) {
-            super(name, age, skillLevel);
+        public FootballPlayer(String name, int age) {
+            super(name, age);
             this.goals = 0;
             this.assists = 0;
         }
