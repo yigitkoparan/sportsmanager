@@ -1,14 +1,35 @@
 package com.sportsmanager.football;
 import com.sportsmanager.framework.Player;
 import com.sportsmanager.framework.Team;
- class FootballTeam extends Team {
-    int numberOfPlayer;
+
+public class FootballTeam extends Team {
+     int numberOfPlayer;
+     int draw;
+     int points;
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+
+     public int getDraw() {
+         return draw;
+     }
+
+     public void setDraw(int draw) {
+         this.draw = draw;
+     }
+
+
     public FootballTeam(String teamName){
         super(teamName);
         this.numberOfPlayer=11;
 
     }
-
 
      @Override
      public double calculateTeamSkill() {

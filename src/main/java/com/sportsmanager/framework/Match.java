@@ -1,14 +1,13 @@
 package com.sportsmanager.framework;
 
 public abstract class Match {
-    String homeTeam;
-    String awayTeam;
-    int homeScore;
-    int awayScore;
+    protected int homeScore;
+    protected int awayScore;
 
-        public Match(String homeTeam, String awayTeam){
-            this.homeTeam = homeTeam;
-            this.awayTeam = awayTeam;
+
+        public Match(int homeScore, int awayScore){
+            this.homeScore = 0;
+            this.awayScore = 0;
         }
 
         public abstract void simulate();

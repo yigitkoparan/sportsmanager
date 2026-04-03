@@ -6,9 +6,27 @@ import java.util.ArrayList;
 public abstract class Team {
     protected String teamName;
     protected int wins;
+
+    public int getLosses() {
+        return losses;
+    }
+
+    public void setLosses(int losses) {
+        this.losses = losses;
+    }
+
     protected int losses;
     protected List<Player> players;
     protected double teamSkill;
+
+    public int getWins() {
+        return wins;
+    }
+
+    public void setWins(int wins) {
+        this.wins = wins;
+    }
+
 
     public void setTeamName(String teamName) {
         this.teamName = teamName;
