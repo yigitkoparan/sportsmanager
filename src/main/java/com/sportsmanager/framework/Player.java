@@ -2,10 +2,10 @@ package com.sportsmanager.framework;
 
 
     public abstract class Player {
-         String name;
-         int age;
-         int skillLevel;
-         boolean isInjured;
+        protected String name;
+         protected int age;
+         protected int skillLevel;
+         protected boolean isInjured;
 
         public Player(String name, int age, int skillLevel) {
             this.name = name;
