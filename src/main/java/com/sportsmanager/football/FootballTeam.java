@@ -6,6 +6,16 @@ public class FootballTeam extends Team {
      int numberOfPlayer;
      int draw;
      int points;
+     int goalsScored;
+
+    public int getGoalsScored() {
+        return goalsScored;
+    }
+
+    public void setGoalsScored(int goalsScored) {
+        this.goalsScored = goalsScored;
+    }
+
 
     public int getPoints() {
         return points;
@@ -30,7 +40,7 @@ public class FootballTeam extends Team {
         this.numberOfPlayer=11;
         this.points=0;
         this.draw=0;
-
+        this.goalsScored=0;
     }
 
      @Override
@@ -42,5 +52,5 @@ public class FootballTeam extends Team {
          return total/(double)numberOfPlayer;
 
      }
-     }
+}
 

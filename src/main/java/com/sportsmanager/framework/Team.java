@@ -6,6 +6,9 @@ import java.util.ArrayList;
 public abstract class Team {
     protected String teamName;
     protected int wins;
+    protected int losses;
+    protected List<Player> players;
+    protected double teamSkill;
 
     public int getLosses() {
         return losses;
@@ -15,9 +18,6 @@ public abstract class Team {
         this.losses = losses;
     }
 
-    protected int losses;
-    protected List<Player> players;
-    protected double teamSkill;
 
     public int getWins() {
         return wins;
@@ -41,7 +41,6 @@ public abstract class Team {
         this.wins = 0;
         this.losses = 0;
         this.players = new ArrayList<>();
-
     }
 
     public abstract double calculateTeamSkill() ;
