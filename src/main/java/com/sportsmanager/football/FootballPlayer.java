@@ -15,7 +15,7 @@ public class FootballPlayer extends Player{
 
         @Override
         public int calculatePerformance() {
-          
+
             return this.skillLevel + (goals * 2);
         }
     }

@@ -1,16 +1,29 @@
 package com.sportsmanager.framework;
+import java.util.Random;
 
 
     public abstract class Player {
         protected String name;
          protected int age;
-         protected int skillLevel;
          protected boolean isInjured;
+        protected int skillLevel;
+        Random r =new Random();
 
-        public Player(String name, int age, int skillLevel) {
+        public int getSkillLevel() {
+            return skillLevel;
+        }
+
+        public void setSkillLevel(int skillLevel) {
+            this.skillLevel = skillLevel;
+        }
+
+
+
+
+        public Player(String name, int age) {
             this.name = name;
             this.age = age;
-            this.skillLevel = skillLevel;
+            this.skillLevel =r.nextInt(20)+1 ;
             this.isInjured = false;
         }
 
