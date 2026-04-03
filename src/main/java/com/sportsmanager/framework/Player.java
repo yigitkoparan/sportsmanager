@@ -1,5 +1,32 @@
 package com.sportsmanager.framework;
 
-public class Player {
 
-}
+    public abstract class Player {
+         String name;
+         int age;
+         int skillLevel;
+         boolean isInjured;
+
+        public Player(String name, int age, int skillLevel) {
+            this.name = name;
+            this.age = age;
+            this.skillLevel = skillLevel;
+            this.isInjured = false;
+        }
+
+
+        public abstract int calculatePerformance();
+
+
+        public String getName() {
+            return name;
+        }
+
+        public boolean isInjured() {
+            return isInjured;
+        }
+
+        public void setInjured(boolean injured) {
+            this.isInjured = injured;
+        }
+    }
