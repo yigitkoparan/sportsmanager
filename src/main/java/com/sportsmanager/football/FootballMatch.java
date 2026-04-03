@@ -8,8 +8,10 @@ public class FootballMatch extends Match{
     FootballTeam homeTeam;
     FootballTeam awayTeam;
 
-    public FootballMatch(int homeScore, int awayScore){
-        super(homeScore,awayScore);
+    public FootballMatch(FootballTeam homeTeam, FootballTeam awayTeam){
+        super(0,0);
+        this.homeTeam = homeTeam;
+        this.awayTeam = awayTeam;
     }
 
     Random rand = new Random();
