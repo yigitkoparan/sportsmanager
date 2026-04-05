@@ -36,7 +36,7 @@ public class FootballTeam extends Team {
 
 
     public FootballTeam(String teamName){
-        super(teamName);
+        super(teamName,0);
         this.numberOfPlayer=11;
         this.points=0;
         this.draw=0;

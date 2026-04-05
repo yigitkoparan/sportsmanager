@@ -8,9 +8,6 @@ public abstract class League {
     protected int currentWeek;
 
 
-
-
-
     public int getCurrentWeek() {
         return currentWeek;
     }
@@ -26,14 +23,15 @@ public abstract class League {
     public void setLeagueName(String leagueName) {
         this.leagueName = leagueName;
     }
+
     public League(String leagueName,int currentWeek){
         this.leagueName=leagueName;
         this.currentWeek=currentWeek;
     }
+
+    public abstract void generatePlayer();
     public abstract void generateFixtures();
     public abstract void generateStanding();
     public abstract void generateTeam();
-
-
 
 }

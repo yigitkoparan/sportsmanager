@@ -2,10 +2,14 @@ package com.sportsmanager.football;
 import com.sportsmanager.framework.League;
 
 import java.util.List;
+import java.util.Random;
 
 public class FootballLeague extends League {
     protected int teamNumber;
-    protected List<FootballTeam> teams;
+    private List<FootballTeam> teams;
+    private List<FootballPlayer> players;
+
+    Random rand = new Random();
 
     public  FootballLeague(String leagueName,int currentWeek){
         super(leagueName,currentWeek);
@@ -17,6 +21,18 @@ public class FootballLeague extends League {
     public void generateTeam() {
         for(int i = 0; i < teamNumber; i++){
             teams.add(new FootballTeam("team"+i));
+            for(int j = 0; j < 11; j++){
+                teams.get(i).addPlayer(players.get(i+j));
+            }
+        }
+    }
+
+    @Override
+    public void generatePlayer() {
+        for(int i = 0; i < teamNumber; i++){
+            for(int j = 0; j < 11; j++){
+                players.add(new FootballPlayer("player"+i+j, rand.nextInt(15)+20));
+            }
         }
     }
 

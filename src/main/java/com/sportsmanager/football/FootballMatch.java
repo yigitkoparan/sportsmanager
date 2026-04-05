@@ -23,6 +23,9 @@ public class FootballMatch extends Match{
         homeScore = rand.nextInt((int)homeSkill) / 2;
         awayScore = rand.nextInt((int)awaySkill) / 2;
 
+        homeTeam.setGamesPlayed(homeTeam.getGamesPlayed()+1);
+        awayTeam.setGamesPlayed(awayTeam.getGamesPlayed()+1);
+
         homeTeam.setGoalsScored(homeTeam.getGoalsScored()+homeScore);
         awayTeam.setGoalsScored(awayTeam.getGoalsScored()+awayScore);
 

@@ -4,8 +4,8 @@ import java.util.Random;
 
     public abstract class Player {
         protected String name;
-         protected int age;
-         protected boolean isInjured;
+        protected int age;
+        protected boolean isInjured;
         protected int skillLevel;
         Random r =new Random();
 
@@ -17,9 +17,6 @@ import java.util.Random;
             this.skillLevel = skillLevel;
         }
 
-
-
-
         public Player(String name, int age) {
             this.name = name;
             this.age = age;
@@ -27,9 +24,7 @@ import java.util.Random;
             this.isInjured = false;
         }
 
-
         public abstract int calculatePerformance();
-
 
         public String getName() {
             return name;
