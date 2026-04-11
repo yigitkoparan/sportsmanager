@@ -32,9 +32,9 @@ public class Tactic {
     }
 
 
-    public Tactic(){
-        this.offensive = false;
-        this.balanced = true;
-        this.defensive = false;
+    public Tactic(boolean offensive, boolean balanced, boolean defensive){
+        this.offensive = offensive;
+        this.balanced = balanced;
+        this.defensive = defensive;
     }
 }
