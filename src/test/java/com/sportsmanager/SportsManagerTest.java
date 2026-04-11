@@ -224,4 +224,20 @@ public class SportsManagerTest {
 
         assertEquals("Şampiyon Beşiktaş", league.getTeams().get(0).getTeamName());
     }
+    @Test
+    public void testWinPointsLogic() {
+        FootballTeam home = new FootballTeam("Home");
+        FootballTeam away = new FootballTeam("Away");
+
+        home.addPlayer(new FootballPlayer("P1", 20));
+        away.addPlayer(new FootballPlayer("P2", 20));
+
+        FootballMatch match = new FootballMatch(home, away);
+        match.simulate();
+
+        if (match.getHomeScore() > match.getAwayScore()) {
+            assertEquals(3, home.getPoints(), "Winner should get 3 points");
+            assertEquals(1, home.getWins(), "Win count should increase by 1");
+        }
+    }
 }
