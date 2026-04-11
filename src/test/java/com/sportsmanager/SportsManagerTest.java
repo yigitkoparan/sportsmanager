@@ -211,7 +211,7 @@ public class SportsManagerTest {
     @Test
     public void testStandingSorting() {
         FootballLeague league = new FootballLeague("Süper Lig", 1);
-        FootballTeam topTeam = new FootballTeam("Şampiyon Beşiktaş");
+        FootballTeam topTeam = new FootballTeam("Şampuan 8taş");
         FootballTeam bottomTeam = new FootballTeam("GS Kümeye");
 
         topTeam.setPoints(50);
@@ -220,9 +220,9 @@ public class SportsManagerTest {
         league.getTeams().add(bottomTeam);
         league.getTeams().add(topTeam);
 
-        league.generateStanding(); //
+        league.generateStanding();
 
-        assertEquals("Şampiyon Beşiktaş", league.getTeams().get(0).getTeamName());
+        assertEquals("Şampuan 8taş", league.getTeams().get(0).getTeamName());
     }
     @Test
     public void testWinPointsLogic() {
@@ -239,5 +239,17 @@ public class SportsManagerTest {
             assertEquals(3, home.getPoints(), "Winner should get 3 points");
             assertEquals(1, home.getWins(), "Win count should increase by 1");
         }
+    }
+    @Test
+    public void testPlayerGenerationCount() {
+        FootballLeague league = new FootballLeague("Süper Lig", 1);
+
+        assertTrue(league.getPlayers().isEmpty());
+
+        league.generatePlayer();
+
+        int expectedCount = 220;
+
+        assertEquals(expectedCount, league.getPlayers().size(), "The league should generate exactly 220 players for 20 teams.");
     }
 }
