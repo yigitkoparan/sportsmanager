@@ -68,6 +68,69 @@ public class SportsManagerTest {
         team.addPlayer(p2);
 
 
-        assertEquals(30.0/11.0, team.calculateTeamSkill(), 0.01);
+        assertEquals(30.0/2.0, team.calculateTeamSkill(), 0.01);
+    }
+
+    @Test
+    public void testPlayerInjuryStatus() {
+        FootballPlayer player = new FootballPlayer("Arda Guler", 21);
+
+        assertFalse(player.isInjured(), "Player should not be injured by default");
+
+        player.setInjured(true);
+
+        assertTrue(player.isInjured(), "Player status should be updated to injured");
+    }
+
+    @Test
+    public void testPlayerAge(){
+        FootballPlayer player = new FootballPlayer("Arda Guler", 21);
+
+        assertEquals(21,player.getAge());
+    }
+
+    @Test
+    public void testTeamNameRetrieval() {
+        FootballTeam team = new FootballTeam("Göztepe SK");
+
+        assertEquals("Göztepe SK", team.getTeamName(), "The team name should match the constructor input");
+
+        team.setTeamName("İzmir Spor");
+        assertEquals("İzmir Spor", team.getTeamName(), "The team name should be updatable via setter");
+    }
+
+    @Test
+    public void testGoalAccumulationAfterMatch() {
+        FootballTeam home = new FootballTeam("BJK");
+        FootballTeam away = new FootballTeam("fb");
+
+        home.addPlayer(new FootballPlayer("Sergen Attı Adele Attı", 25));
+        away.addPlayer(new FootballPlayer("Tümer Metin", 25));
+
+        FootballMatch match = new FootballMatch(home, away);
+
+        int initialHomeGoals = home.getGoalsScored();
+
+        match.simulate();
+
+
+        int expectedTotal = initialHomeGoals + match.getHomeScore();
+
+        assertEquals(expectedTotal, home.getGoalsScored(),"Team's total goals should increase by the match score amount");
+    }
+
+    @Test
+    public void calculateTeamSkill(){
+        FootballPlayer p1 = new FootballPlayer("p1",21);
+        FootballPlayer p2 = new FootballPlayer("p2",21);
+        FootballTeam t1 = new FootballTeam("Beşiktaş");
+
+        p1.setSkillLevel(12);
+        p2.setSkillLevel(11);
+
+        t1.addPlayer(p1);
+        t1.addPlayer(p2);
+
+        assertEquals(11.5,t1.calculateTeamSkill(),0.001);
     }
 }

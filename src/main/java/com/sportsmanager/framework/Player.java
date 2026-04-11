@@ -9,6 +9,15 @@ import java.util.Random;
         protected int skillLevel;
         Random r =new Random();
 
+        public int getAge() {
+            return age;
+        }
+
+        public void setAge(int age) {
+            this.age = age;
+        }
+
+
         public int getSkillLevel() {
             return skillLevel;
         }

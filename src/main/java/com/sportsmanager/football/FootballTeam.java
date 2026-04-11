@@ -46,10 +46,12 @@ public class FootballTeam extends Team {
      @Override
      public double calculateTeamSkill() {
          double total = 0;
+         int counter = 0;
          for (Player p : players) {
              total+=p.getSkillLevel();
+             counter++;
          }
-         return total/(double)numberOfPlayer;
+         return total/(double)counter;
 
      }
 }
