@@ -133,4 +133,34 @@ public class SportsManagerTest {
 
         assertEquals(11.5,t1.calculateTeamSkill(),0.001);
     }
+    @Test
+    public void testTacticOffensiveSetsCorrectly() {
+        Tactic t = new Tactic(false, true, false); 
+        t.Offensive();
+        assertTrue(t.isOffensive(), "Offensive should be true");
+        assertFalse(t.isBalanced(), "Balanced should be false");
+        assertFalse(t.isDefensive(), "Defensive should be false");
+    }
+
+    @Test
+    public void testTacticDefensiveSetsCorrectly() {
+        Tactic t = new Tactic(false, true, false);
+        t.Defensive();
+        assertTrue(t.isDefensive());
+        assertFalse(t.isOffensive());
+    }
+
+    @Test
+    public void testTacticBalancedSetsCorrectly() {
+        Tactic t = new Tactic(true, false, false);
+        t.Balance();
+        assertTrue(t.isBalanced());
+        assertFalse(t.isOffensive());
+    }
+
+    @Test
+    public void testTacticConstructor() {
+        Tactic t = new Tactic(true, false, false);
+        assertTrue(t.isOffensive());
+    }
 }
