@@ -135,7 +135,7 @@ public class SportsManagerTest {
     }
     @Test
     public void testTacticOffensiveSetsCorrectly() {
-        Tactic t = new Tactic(false, true, false); 
+        Tactic t = new Tactic(false, true, false);
         t.Offensive();
         assertTrue(t.isOffensive(), "Offensive should be true");
         assertFalse(t.isBalanced(), "Balanced should be false");
@@ -162,5 +162,18 @@ public class SportsManagerTest {
     public void testTacticConstructor() {
         Tactic t = new Tactic(true, false, false);
         assertTrue(t.isOffensive());
+    }
+    @Test
+    public void testOffensiveTacticModifier() {
+        FootballTeam home = new FootballTeam("H");
+        FootballTeam away = new FootballTeam("A");
+        FootballMatch match = new FootballMatch(home, away);
+
+        Tactic offensive = new Tactic(true, false, false);
+
+        
+        int modifier = match.getHomeModifier(offensive, offensive);
+
+        assertEquals(4, modifier, "Double offensive tactics should result in a +4 modifier");
     }
 }

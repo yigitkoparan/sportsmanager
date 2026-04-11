@@ -18,7 +18,7 @@ public class FootballMatch extends Match{
         this.awayTeam = awayTeam;
     }
 
-    private int getHomeModifier(Tactic homeTeam, Tactic awayTeam){
+    public int getHomeModifier(Tactic homeTeam, Tactic awayTeam){
         int modifier = 0;
         if(homeTeam.isOffensive() && awayTeam.isOffensive()){
             modifier = 4;
@@ -53,7 +53,7 @@ public class FootballMatch extends Match{
         return modifier;
     }
 
-    private int getAwayModifier(Tactic homeTeam, Tactic awayTeam){
+    public int getAwayModifier(Tactic homeTeam, Tactic awayTeam){
         int modifier = 0;
         if(awayTeam.isOffensive() && homeTeam.isOffensive()){
             modifier = 4;
