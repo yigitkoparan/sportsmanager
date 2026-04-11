@@ -56,4 +56,18 @@ public class SportsManagerTest {
 
         assertEquals(15, p.calculatePerformance());
     }
+    @Test
+    public void testTeamSkillCalculation() {
+        FootballTeam team = new FootballTeam("Besiktas");
+        FootballPlayer p1 = new FootballPlayer("P1", 20);
+        p1.setSkillLevel(10);
+        FootballPlayer p2 = new FootballPlayer("P2", 21);
+        p2.setSkillLevel(20);
+
+        team.addPlayer(p1);
+        team.addPlayer(p2);
+
+
+        assertEquals(30.0/11.0, team.calculateTeamSkill(), 0.01);
+    }
 }
