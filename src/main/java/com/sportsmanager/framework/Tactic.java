@@ -37,4 +37,20 @@ public class Tactic {
         this.balanced = balanced;
         this.defensive = defensive;
     }
+    public void Offensive(){
+        balanced=false;
+        defensive=false;
+        offensive=true;
+    }
+    public void Defensive(){
+        balanced=false;
+        defensive=true;
+        offensive=false;
+    }
+    public void Balance(){
+        balanced=true;
+        defensive=false;
+        offensive=false;
+    }
+
 }
