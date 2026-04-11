@@ -48,4 +48,12 @@ public class SportsManagerTest {
         assertEquals(1, home.getGamesPlayed());
         assertEquals(1, away.getGamesPlayed());
     }
+
+    @Test
+    public void testFootballPlayerPerformance() {
+        FootballPlayer p = new FootballPlayer("Semih Kılıçsoy", 19);
+        p.setSkillLevel(15);
+
+        assertEquals(15, p.calculatePerformance());
+    }
 }
