@@ -1,5 +1,6 @@
 package com.sportsmanager.football;
 import com.sportsmanager.framework.Match;
+import com.sportsmanager.framework.Tactic;
 import com.sportsmanager.framework.Team;
 import java.util.Random;
 
@@ -7,6 +8,9 @@ public class FootballMatch extends Match{
     private final int gameDuration = 90;
     FootballTeam homeTeam;
     FootballTeam awayTeam;
+    Tactic homeTactic= new Tactic(false,true,false);
+    Tactic awayTactic=new Tactic(false,true,false);
+
 
     public FootballMatch(FootballTeam homeTeam, FootballTeam awayTeam){
         super(0,0);
