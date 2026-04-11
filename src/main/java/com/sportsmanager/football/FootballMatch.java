@@ -53,6 +53,32 @@ public class FootballMatch extends Match{
         return modifier;
     }
 
+    private int getAwayModifier(Tactic homeTeam, Tactic awayTeam){
+        int modifier = 0;
+        if(awayTeam.isOffensive() && homeTeam.isOffensive()){
+            modifier = 4;
+        }if(awayTeam.isOffensive() && homeTeam.isBalanced()){
+            modifier = 2;
+        }if(awayTeam.isOffensive() && homeTeam.isDefensive()){
+            modifier = 0;
+        }if(awayTeam.isBalanced() && homeTeam.isOffensive()){
+            modifier = 2;
+        }if(awayTeam.isBalanced() && homeTeam.isBalanced()){
+            modifier = 0;
+        }if(awayTeam.isBalanced() && homeTeam.isDefensive()){
+            modifier = -2;
+        }if(awayTeam.isDefensive() && homeTeam.isOffensive()){
+            modifier = 0;
+        }if(awayTeam.isDefensive() && homeTeam.isBalanced()){
+            modifier = -2;
+        }if(awayTeam.isDefensive() && homeTeam.isDefensive()){
+            modifier = -4;
+        }
+
+        return modifier;
+
+    }
+
     Random rand = new Random();
     @Override
     public void simulate(){
