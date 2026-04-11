@@ -176,4 +176,52 @@ public class SportsManagerTest {
 
         assertEquals(4, modifier, "Double offensive tactics should result in a +4 modifier");
     }
+
+    @Test
+    public void testPlayerSkillRange() {
+        FootballPlayer p = new FootballPlayer("Orkun Kökçü", 20);
+
+        assertTrue(p.getSkillLevel() >= 1 && p.getSkillLevel() <= 20);
+    }
+
+    @Test
+    public void testMatchDrawPoints() {
+        FootballTeam home = new FootballTeam("Beşiktaş");
+        FootballTeam away = new FootballTeam("Galatasaray");
+
+        FootballPlayer p = new FootballPlayer("Sergen Yalçın", 25);
+        p.setSkillLevel(20);
+        home.addPlayer(p);
+        away.addPlayer(p);
+
+        FootballMatch match = new FootballMatch(home, away);
+
+        match.simulate();
+
+        if (match.getHomeScore() == match.getAwayScore()) {
+
+            assertEquals(1, home.getPoints(), "Home team should get 1 point for a draw");
+            assertEquals(1, away.getPoints(), "Away team should get 1 point for a draw");
+
+            assertEquals(1, home.getDraw(), "Home team draw count should increase");
+            assertEquals(1, away.getDraw(), "Away team draw count should increase");
+        }
+    }
+
+    @Test
+    public void testStandingSorting() {
+        FootballLeague league = new FootballLeague("Süper Lig", 1);
+        FootballTeam topTeam = new FootballTeam("Şampiyon Beşiktaş");
+        FootballTeam bottomTeam = new FootballTeam("GS Kümeye");
+
+        topTeam.setPoints(50);
+        bottomTeam.setPoints(10);
+
+        league.getTeams().add(bottomTeam);
+        league.getTeams().add(topTeam);
+
+        league.generateStanding(); //
+
+        assertEquals("Şampiyon Beşiktaş", league.getTeams().get(0).getTeamName());
+    }
 }

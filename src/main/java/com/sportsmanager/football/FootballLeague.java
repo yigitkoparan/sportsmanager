@@ -9,12 +9,31 @@ public class FootballLeague extends League {
     private List<FootballTeam> teams;
     private List<FootballPlayer> players;
 
+    public List<FootballTeam> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(List<FootballTeam> teams) {
+        this.teams = teams;
+    }
+
+    public List<FootballPlayer> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(List<FootballPlayer> players) {
+        this.players = players;
+    }
+
+
     Random rand = new Random();
 
     public  FootballLeague(String leagueName,int currentWeek){
         super(leagueName,currentWeek);
         this.teamNumber=20;
 
+        this.teams = new java.util.ArrayList<>();
+        this.players = new java.util.ArrayList<>();
     }
 
     @Override
