@@ -29,6 +29,26 @@ public class FootballMatch extends Match{
         if (homeTeam.isOffensive() && awayTeam.isDefensive()) {
             modifier = 0;
         }
+        if(homeTeam.isBalanced() && awayTeam.isDefensive()){
+            modifier = -2;
+        }
+        if(homeTeam.isBalanced() && awayTeam.isBalanced()){
+            modifier = 0;
+        }
+        if (homeTeam.isBalanced() && awayTeam.isOffensive()) {
+            modifier = 2;
+        }
+        if(homeTeam.isDefensive() && awayTeam.isDefensive()){
+            modifier = -4;
+        }
+        if(homeTeam.isDefensive() && awayTeam.isBalanced()){
+            modifier = -2;
+        }
+        if (homeTeam.isDefensive() && awayTeam.isOffensive()) {
+            modifier = 0;
+        }
+
+
 
         return modifier;
     }
