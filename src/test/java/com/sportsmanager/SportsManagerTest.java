@@ -84,7 +84,7 @@ public class SportsManagerTest {
 
     @Test
     public void testPlayerAge(){
-        FootballPlayer player = new FootballPlayer("Arda Guler", 21);
+        FootballPlayer player = new FootballPlayer("Arda Güler", 21);
 
         assertEquals(21,player.getAge());
     }
@@ -95,8 +95,8 @@ public class SportsManagerTest {
 
         assertEquals("Göztepe SK", team.getTeamName(), "The team name should match the constructor input");
 
-        team.setTeamName("İzmir Spor");
-        assertEquals("İzmir Spor", team.getTeamName(), "The team name should be updatable via setter");
+        team.setTeamName("İzmirspor");
+        assertEquals("İzmirspor", team.getTeamName(), "The team name should be updatable via setter");
     }
 
     @Test
@@ -165,8 +165,8 @@ public class SportsManagerTest {
     }
     @Test
     public void testOffensiveTacticModifier() {
-        FootballTeam home = new FootballTeam("H");
-        FootballTeam away = new FootballTeam("A");
+        FootballTeam home = new FootballTeam("Atletico Madrid");
+        FootballTeam away = new FootballTeam("Barcelona");
         FootballMatch match = new FootballMatch(home, away);
 
         Tactic offensive = new Tactic(true, false, false);
