@@ -1,5 +1,6 @@
 package com.sportsmanager.football;
 import com.sportsmanager.framework.Match;
+import com.sportsmanager.framework.Tactic;
 import com.sportsmanager.framework.Team;
 import java.util.Random;
 
@@ -12,6 +13,21 @@ public class FootballMatch extends Match{
         super(0,0);
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
+    }
+
+    private int getHomeModifier(Tactic homeTeam, Tactic awayTeam){
+        int modifier = 0;
+        if(homeTeam.isOffensive() && awayTeam.isOffensive()){
+            modifier = 4;
+        }
+        if(homeTeam.isOffensive() && awayTeam.isBalanced()){
+            modifier = 2;
+        }
+        if (homeTeam.isOffensive() && awayTeam.isDefensive()) {
+            modifier = 0;
+        }
+
+        return modifier;
     }
 
     Random rand = new Random();
