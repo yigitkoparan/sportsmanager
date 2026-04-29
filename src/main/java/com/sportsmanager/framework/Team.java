@@ -57,10 +57,11 @@ public abstract class Team {
 
     public Team(String teamName,int gamesPlayed) {
         this.teamName = teamName;
-        this.gamesPlayed = 0;
+        this.gamesPlayed = gamesPlayed;
         this.wins = 0;
         this.losses = 0;
         this.players = new ArrayList<>();
+        this.teamSkill = calculateTeamSkill();
     }
 
     public abstract double calculateTeamSkill() ;
