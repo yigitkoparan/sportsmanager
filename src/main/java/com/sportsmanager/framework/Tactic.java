@@ -1,56 +1,20 @@
 package com.sportsmanager.framework;
 
 public class Tactic {
-    protected boolean defensive;
-    protected boolean offensive;
-    protected boolean balanced;
+   private String tacticName;
+   private int modifier;
 
-    public boolean isOffensive() {
-        return offensive;
-    }
+   public Tactic(String tacticName, int modifier){
+       this.tacticName = tacticName;
+       this.modifier = modifier;
+   }
 
-    public void setOffensive(boolean offensive) {
-        this.offensive = offensive;
-    }
+   public String getTacticName(){
+       return tacticName;
+   }
 
-
-    public boolean isBalanced() {
-        return balanced;
-    }
-
-    public void setBalanced(boolean balanced) {
-        this.balanced = balanced;
-    }
-
-
-    public boolean isDefensive() {
-        return defensive;
-    }
-
-    public void setDefensive(boolean defensive) {
-        this.defensive = defensive;
-    }
-
-
-    public Tactic(boolean offensive, boolean balanced, boolean defensive){
-        this.offensive = offensive;
-        this.balanced = balanced;
-        this.defensive = defensive;
-    }
-    public void Offensive(){
-        balanced=false;
-        defensive=false;
-        offensive=true;
-    }
-    public void Defensive(){
-        balanced=false;
-        defensive=true;
-        offensive=false;
-    }
-    public void Balance(){
-        balanced=true;
-        defensive=false;
-        offensive=false;
-    }
+   public int getModifier(){
+       return modifier;
+   }
 
 }

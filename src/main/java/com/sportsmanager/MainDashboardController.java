@@ -1,6 +1,7 @@
 package com.sportsmanager;
 
 import com.sportsmanager.football.FootballLeague;
+import com.sportsmanager.football.FootballMatch;
 import com.sportsmanager.football.FootballPlayer;
 import com.sportsmanager.football.FootballTeam;
 import com.sportsmanager.framework.Player;
@@ -41,6 +42,8 @@ public class MainDashboardController {
                 new SimpleStringProperty(cellData.getValue().getTeamName())
         );
         points.setCellValueFactory(new PropertyValueFactory<>("points"));
+        league.generateFixtureForWeek();
+        FootballMatch humanMatch = league.getUserMatch(userTeam);
 
         standings.setItems(FXCollections.observableArrayList(league.getTeams()));
 

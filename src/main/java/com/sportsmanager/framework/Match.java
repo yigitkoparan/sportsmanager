@@ -26,6 +26,4 @@ public abstract class Match {
             this.awayScore = 0;
         }
 
-
-        public abstract void simulate();
 }

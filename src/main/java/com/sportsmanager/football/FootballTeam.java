@@ -1,5 +1,6 @@
 package com.sportsmanager.football;
 import com.sportsmanager.framework.Player;
+import com.sportsmanager.framework.Tactic;
 import com.sportsmanager.framework.Team;
 
 public class FootballTeam extends Team {
@@ -7,6 +8,15 @@ public class FootballTeam extends Team {
      int draw;
      int points;
      int goalsScored;
+     private Tactic currentTactic;
+
+     public Tactic getTactic(){
+         return currentTactic;
+     }
+
+     public void setTactic(Tactic tactic){
+         this.currentTactic = tactic;
+     }
 
     public int getGoalsScored() {
         return goalsScored;
@@ -41,6 +51,7 @@ public class FootballTeam extends Team {
         this.points=0;
         this.draw=0;
         this.goalsScored=0;
+        this.currentTactic = new Tactic("Balanced",0);
     }
 
      @Override

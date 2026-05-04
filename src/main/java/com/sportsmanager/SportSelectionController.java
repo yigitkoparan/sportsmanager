@@ -19,6 +19,7 @@ public class SportSelectionController {
         FootballLeague league = new FootballLeague("Süper Lig",1);
         league.generatePlayer();
         league.generateTeam();
+        league.generateFullSeasonFixture();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/TeamSelection.fxml"));
         Parent root = loader.load();

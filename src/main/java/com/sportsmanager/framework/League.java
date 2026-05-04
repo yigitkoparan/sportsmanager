@@ -30,7 +30,6 @@ public abstract class League {
     }
 
     public abstract void generatePlayer();
-    public abstract void generateFixtures();
     public abstract void generateStanding();
     public abstract void generateTeam();
 
