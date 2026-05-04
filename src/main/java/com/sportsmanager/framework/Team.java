@@ -10,6 +10,15 @@ public abstract class Team {
     protected int losses;
     protected List<Player> players;
     protected double teamSkill;
+    private Tactic currentTactic;
+
+    public Tactic getTactic(){
+        return currentTactic;
+    }
+
+    public void setTactic(Tactic tactic){
+        this.currentTactic = tactic;
+    }
 
     public List<Player> getPlayers() {
         return players;
@@ -62,6 +71,7 @@ public abstract class Team {
         this.losses = 0;
         this.players = new ArrayList<>();
         this.teamSkill = calculateTeamSkill();
+        this.currentTactic = new Tactic("Balanced",0);
     }
 
     public abstract double calculateTeamSkill() ;
