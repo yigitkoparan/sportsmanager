@@ -11,11 +11,8 @@ public class VolleyballMatch extends Match {
     VolleyballTeam awayTeam;
     int homeTeamSet;
     int awayTeamSet;
-    private int scoreTarget;
-    private int ovetTimeScoreTarget;
     private ArrayList<String> sets = new ArrayList<>();
-    Tactic homeTactic = new Tactic(false, true, false);
-    Tactic awayTactic = new Tactic(false, true, false);
+
 
     public VolleyballMatch(VolleyballTeam homeTeam, VolleyballTeam awayTeam) {
         super(0, 0);
@@ -25,134 +22,137 @@ public class VolleyballMatch extends Match {
         this.awayTeamSet = 0;
     }
 
-    public int getHomeModifier(Tactic homeTeam, Tactic awayTeam) {
-        int modifier = 0;
-        if (homeTeam.isOffensive() && awayTeam.isOffensive()) {
-            modifier = 4;
+    private int getTacticModifier(String tactic) {
+        if (tactic == null) return 0;
+        switch (tactic) {
+            case "Offense":
+                return 5;
+            case "Defense":
+                return -3;
+            default:
+                return 0;
         }
-        if (homeTeam.isOffensive() && awayTeam.isBalanced()) {
-            modifier = 2;
-        }
-        if (homeTeam.isOffensive() && awayTeam.isDefensive()) {
-            modifier = 0;
-        }
-        if (homeTeam.isBalanced() && awayTeam.isDefensive()) {
-            modifier = -2;
-        }
-        if (homeTeam.isBalanced() && awayTeam.isBalanced()) {
-            modifier = 0;
-        }
-        if (homeTeam.isBalanced() && awayTeam.isOffensive()) {
-            modifier = 2;
-        }
-        if (homeTeam.isDefensive() && awayTeam.isDefensive()) {
-            modifier = -4;
-        }
-        if (homeTeam.isDefensive() && awayTeam.isBalanced()) {
-            modifier = -2;
-        }
-        if (homeTeam.isDefensive() && awayTeam.isOffensive()) {
-            modifier = 0;
-        }
-
-return modifier;
     }
-    public int getAwayModifier(Tactic homeTeam, Tactic awayTeam){
-        int modifier = 0;
-        if(awayTeam.isOffensive() && homeTeam.isOffensive()){
-            modifier = 4;
-        }if(awayTeam.isOffensive() && homeTeam.isBalanced()){
-            modifier = 2;
-        }if(awayTeam.isOffensive() && homeTeam.isDefensive()){
-            modifier = 0;
-        }if(awayTeam.isBalanced() && homeTeam.isOffensive()){
-            modifier = 2;
-        }if(awayTeam.isBalanced() && homeTeam.isBalanced()){
-            modifier = 0;
-        }if(awayTeam.isBalanced() && homeTeam.isDefensive()){
-            modifier = -2;
-        }if(awayTeam.isDefensive() && homeTeam.isOffensive()){
-            modifier = 0;
-        }if(awayTeam.isDefensive() && homeTeam.isBalanced()){
-            modifier = -2;
-        }if(awayTeam.isDefensive() && homeTeam.isDefensive()){
-            modifier = -4;
-        }
 
-        return modifier;
-
-    }
     Random rand = new Random();
-    @Override
+
     public void simulate() {
         double homeSkill = homeTeam.calculateTeamSkill();
         double awaySkill = awayTeam.calculateTeamSkill();
-       if(homeTeamSet!=2 && awayTeamSet!=2){
-        while(homeScore<scoreTarget && awayScore<scoreTarget){
-            int homeBound = (int)homeSkill + getHomeModifier(homeTactic, awayTactic);
-            int awayBound = (int)awaySkill + getAwayModifier(homeTactic, awayTactic);
+        while (homeTeamSet < 3 && awayTeamSet < 3) {
+            if (homeTeamSet == 2 && awayTeamSet == 2) {
+                while (homeScore < 15 && awayScore < 15) {
+                    int homeBound = (int) homeSkill + homeTeam.getTactic().getModifier();
+                    int awayBound = (int) awaySkill + awayTeam.getTactic().getModifier();
 
-            int  homeProbability = rand.nextInt(Math.max(1, homeBound)) / 2;
-            int awayProbability = rand.nextInt(Math.max(1, awayBound)) / 2;
-            if(homeProbability>awayProbability){
-                homeScore++;
-            }
-            else if(awayProbability>homeProbability){
-                awayScore++;
-            }
-            if(homeScore==24 && awayScore==24){
-                while(Math.abs(homeScore-awayScore)<2 ){
-                     homeBound = (int)homeSkill + getHomeModifier(homeTactic, awayTactic);
-                     awayBound = (int)awaySkill + getAwayModifier(homeTactic, awayTactic);
-
-                      homeProbability = rand.nextInt(Math.max(1, homeBound)) / 2;
-                     awayProbability = rand.nextInt(Math.max(1, awayBound)) / 2;
-                    if(homeProbability>awayProbability){
+                    int homeProbability = rand.nextInt(Math.max(1, homeBound)) ;
+                    int awayProbability = rand.nextInt(Math.max(1, awayBound)) ;
+                    if (homeProbability > awayProbability) {
                         homeScore++;
-                    }
-                    else if(awayProbability>homeProbability){
+                    } else if (awayProbability > homeProbability) {
                         awayScore++;
+                    }
+                    if (homeScore == 14 && awayScore == 14) {
+                        while (Math.abs(homeScore - awayScore) < 2) {
+
+                            homeProbability = rand.nextInt(Math.max(1, homeBound)) ;
+                            awayProbability = rand.nextInt(Math.max(1, awayBound)) ;
+                            if (homeProbability > awayProbability) {
+                                homeScore++;
+                            } else if (awayProbability > homeProbability) {
+                                awayScore++;
+                            }
+
+                        }
                     }
 
                 }
+                if (homeScore > awayScore) {
+                    homeTeamSet++;
+                    homeTeam.setWinSet(homeTeam.getWinSet() + 1);
+                    awayTeam.setLoseSet(awayTeam.getLoseSet() + 1);
+
+                }
+                if (awayScore > homeScore) {
+                    awayTeamSet++;
+                    awayTeam.setWinSet(awayTeam.getWinSet() + 1);
+                    homeTeam.setLoseSet(homeTeam.getLoseSet() + 1);
+                }
+                homeTeam.setPointScored(homeTeam.getPointScored() + homeScore);
+                homeTeam.setOpponentPoint(homeTeam.getOpponentPoint() + awayScore);
+                awayTeam.setPointScored(awayTeam.getPointScored() + awayScore);
+                awayTeam.setOpponentPoint(awayTeam.getOpponentPoint() + homeScore);
+
+                int setNumber = homeTeamSet + awayTeamSet;
+                sets.add(setNumber + ". set " + homeScore + "-" + awayScore);
+
+                homeScore = 0;
+                awayScore = 0;
+            } else {
+                while (homeScore < 25 && awayScore < 25) {
+
+                    int homeBound = (int) homeSkill + homeTeam.getTactic().getModifier();
+                    int awayBound = (int) awaySkill + awayTeam.getTactic().getModifier();
+                    int homeProbability = rand.nextInt(Math.max(1, homeBound)) ;
+                    int awayProbability = rand.nextInt(Math.max(1, awayBound)) ;
+                    if (homeProbability > awayProbability) {
+                        homeScore++;
+                    } else if (awayProbability > homeProbability) {
+                        awayScore++;
+                    }
+                    if (homeScore == 24 && awayScore == 24) {
+                        while (Math.abs(homeScore - awayScore) < 2) {
+
+                            homeProbability = rand.nextInt(Math.max(1, homeBound)) ;
+                            awayProbability = rand.nextInt(Math.max(1, awayBound)) ;
+                            if (homeProbability > awayProbability) {
+                                homeScore++;
+                            } else if (awayProbability > homeProbability) {
+                                awayScore++;
+                            }
+
+                        }
+                    }
+
+                }
+                if (homeScore > awayScore) {
+                    homeTeamSet++;
+                    homeTeam.setWinSet(homeTeam.getWinSet() + 1);
+                    awayTeam.setLoseSet(awayTeam.getLoseSet() + 1);
+
+                }
+                if (awayScore > homeScore) {
+                    awayTeamSet++;
+                    awayTeam.setWinSet(awayTeam.getWinSet() + 1);
+                    homeTeam.setLoseSet(homeTeam.getLoseSet() + 1);
+                }
+                homeTeam.setPointScored(homeTeam.getPointScored() + homeScore);
+                homeTeam.setOpponentPoint(homeTeam.getOpponentPoint() + awayScore);
+                awayTeam.setPointScored(awayTeam.getPointScored() + awayScore);
+                awayTeam.setOpponentPoint(awayTeam.getOpponentPoint() + homeScore);
+
+                int setNumber = homeTeamSet + awayTeamSet + 1;
+                sets.add(setNumber + ". set " + homeScore + "-" + awayScore);
+                homeScore = 0;
+                awayScore = 0;
+
             }
-
-        }
-        if(homeScore>awayScore){
-            homeTeamSet++;
-            homeTeam.setWinSet(homeTeam.getWinSet()+1);
-            awayTeam.setLoseSet(awayTeam.getLoseSet()+1);
-
-        }
-        if(awayScore>homeScore){
-            awayTeamSet++;
-            awayTeam.setWinSet(awayTeam.getWinSet()+1);
-            homeTeam.setLoseSet(homeTeam.getLoseSet()+1);
-        }
-           homeTeam.setPointScored(homeTeam.getPointScored()+homeScore);
-           homeTeam.setOpponentPoint(homeTeam.getOpponentPoint()+awayScore);
-           awayTeam.setPointScored(awayTeam.getPointScored()+awayScore);
-           awayTeam.setOpponentPoint(awayTeam.getOpponentPoint()+homeScore);
-
-       }
-       if(homeTeamSet==3&&awayTeamSet==1){
-           homeTeam.setPoints(homeTeam.getPoints()+3);
-       }
-        if(awayTeamSet==3&&homeTeamSet==1){
-            awayTeam.setPoints(awayTeam.getPoints()+3);
-        }
-        if(homeTeamSet==3&&awayTeamSet==0){
-            homeTeam.setPoints(homeTeam.getPoints()+3);
-        }
-        if(awayTeamSet==3&&homeTeamSet==0){
-            awayTeam.setPoints(awayTeam.getPoints()+3);
-        }
+            if (homeTeamSet == 3 && (awayTeamSet == 0 || awayTeamSet == 1)) {
+                homeTeam.setPoints(homeTeam.getPoints() + 3);
+            } else if (awayTeamSet == 3 && (homeTeamSet == 0 || homeTeamSet == 1)) {
+                awayTeam.setPoints(awayTeam.getPoints() + 3);
+            } else if (homeTeamSet == 3 && awayTeamSet == 2) {
+                homeTeam.setPoints(homeTeam.getPoints() + 2);
+                awayTeam.setPoints(awayTeam.getPoints() + 1);
+            } else if (awayTeamSet == 3 && homeTeamSet == 2) {
+                awayTeam.setPoints(awayTeam.getPoints() + 2);
+                homeTeam.setPoints(homeTeam.getPoints() + 1);
 
 
+            }
+        }
 
 
     }
-
-
 }
 

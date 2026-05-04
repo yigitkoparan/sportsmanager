@@ -1,5 +1,5 @@
 package com.sportsmanager.volleyball;
-
+import com.sportsmanager.framework.Tactic;
 import com.sportsmanager.framework.Player;
 import com.sportsmanager.framework.Team;
 
@@ -10,6 +10,8 @@ public class VolleyballTeam extends Team {
     int opponentPoint;
     int winSet;
     int loseSet;
+    private Tactic currentTactic;
+
 
     public int getOpponentPoint() {
         return opponentPoint;
@@ -65,6 +67,7 @@ public class VolleyballTeam extends Team {
         this.pointScored=0;
         this.opponentPoint=0;
         this.winSet=0;
+        this.currentTactic = new Tactic("Balanced",0);
     }
 
     @Override
