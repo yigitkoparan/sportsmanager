@@ -22,19 +22,19 @@ public class FootballMatch extends Match{
     }
 
     public void simulateFirstHalf(){
-        double homeAttack = homeTeam.calculateTeamSkill() + homeTeam.getTactic().getModifier();
-        double awayAttack = awayTeam.calculateTeamSkill() + awayTeam.getTactic().getModifier();
+        double homeAttack = homeTeam.calculateTeamSkill() + homeTeam.getTactic().getModifier() - awayTeam.getTactic().getModifier();
+        double awayAttack = awayTeam.calculateTeamSkill() + awayTeam.getTactic().getModifier() - homeTeam.getTactic().getModifier();
 
-        this.homeScore += (int) (Math.random() * (homeAttack / 20.0 + 1));
-        this.awayScore += (int) (Math.random() * (awayAttack / 20.0 + 1));
+        this.homeScore += (int) (Math.random() * (homeAttack / 20.0 + 1) * 2);
+        this.awayScore += (int) (Math.random() * (awayAttack / 20.0 + 1) * 2);
     }
 
     public void simulateSecondHalf() {
-        double homeAttack = homeTeam.calculateTeamSkill() + homeTeam.getTactic().getModifier();
-        double awayAttack = awayTeam.calculateTeamSkill() + awayTeam.getTactic().getModifier();
+        double homeAttack = homeTeam.calculateTeamSkill() + homeTeam.getTactic().getModifier() - awayTeam.getTactic().getModifier();
+        double awayAttack = awayTeam.calculateTeamSkill() + awayTeam.getTactic().getModifier() - homeTeam.getTactic().getModifier();
 
-        this.homeScore += (int) (Math.random() * (homeAttack / 20.0 + 1));
-        this.awayScore += (int) (Math.random() * (awayAttack / 20.0 + 1));
+        this.homeScore += (int) (Math.random() * (homeAttack / 20.0 + 1) * 2);
+        this.awayScore += (int) (Math.random() * (awayAttack / 20.0 + 1) * 2);
 
         this.isFinished = true;
         resolveMatchResults();
@@ -59,14 +59,5 @@ public class FootballMatch extends Match{
         homeTeam.setGoalsScored(homeTeam.getGoalsScored() + homeScore);
         awayTeam.setGoalsScored(awayTeam.getGoalsScored() + awayScore);
 
-    }
-
-    private int getTacticModifier(String tactic){
-        if (tactic == null) return 0;
-        switch(tactic){
-            case "Offense": return 5;
-            case "Defense": return -3;
-            default: return 0;
-        }
     }
 }
