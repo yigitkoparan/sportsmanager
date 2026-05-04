@@ -1,6 +1,7 @@
 package com.sportsmanager.football;
 import com.sportsmanager.framework.League;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -8,6 +9,8 @@ public class FootballLeague extends League {
     protected int teamNumber;
     private List<FootballTeam> teams;
     private List<FootballPlayer> players;
+
+    private String[] teamNames = {"Beşiktaş","Galatasaray","Fenerbahçe","Trabzonspor","Başakşehir","Göztepe","Samsunspor","Konyaspor","Rizespor","Gaziantep FK","Kocaelispor","Alanyaspor","Kasımpaşa","Gençlerbirliği","Eyüpspor","Antalyaspor","Kayserispor","Karagümrük"};
 
     public List<FootballTeam> getTeams() {
         return teams;
@@ -30,7 +33,7 @@ public class FootballLeague extends League {
 
     public  FootballLeague(String leagueName,int currentWeek){
         super(leagueName,currentWeek);
-        this.teamNumber=20;
+        this.teamNumber=18;
 
         this.teams = new java.util.ArrayList<>();
         this.players = new java.util.ArrayList<>();
@@ -39,7 +42,7 @@ public class FootballLeague extends League {
     @Override
     public void generateTeam() {
         for(int i = 0; i < teamNumber; i++){
-            teams.add(new FootballTeam("team"+i));
+            teams.add(new FootballTeam(teamNames[i]));
             for(int j = 0; j < 11; j++){
                 teams.get(i).addPlayer(players.get(i+j));
             }
