@@ -7,12 +7,17 @@ import com.sportsmanager.football.FootballTeam;
 import com.sportsmanager.framework.Player;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+
+import java.io.IOException;
 
 public class MainDashboardController {
     @FXML private Label UserTeamName;
@@ -46,6 +51,24 @@ public class MainDashboardController {
         FootballMatch humanMatch = league.getUserMatch(userTeam);
 
         standings.setItems(FXCollections.observableArrayList(league.getTeams()));
+    }
 
+    @FXML
+    private void handleSimulateWeek(ActionEvent event) throws IOException {
+
+        FootballMatch humanMatch = league.getUserMatch(userTeam);
+
+        if (humanMatch != null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/MatchSimulation.fxml"));
+            Parent root = loader.load();
+
+            MatchSimulationController controller = loader.getController();
+            controller.initData(this.league, this.userTeam, humanMatch);
+
+            javafx.stage.Stage stage = (javafx.stage.Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new javafx.scene.Scene(root));
+        } else {
+            System.out.println("No more matches left");
+        }
     }
 }
