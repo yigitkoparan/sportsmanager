@@ -44,7 +44,7 @@ public class MainMenuController {
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
                 Object loadedLeague = ois.readObject();
                 Object loadedUserTeam = ois.readObject();
-                
+
                 if (loadedLeague instanceof FootballLeague) {
                     loadFootball(event, (FootballLeague) loadedLeague, (FootballTeam) loadedUserTeam);
                 }else{
