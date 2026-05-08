@@ -2,9 +2,12 @@ package com.sportsmanager.football;
 import com.sportsmanager.framework.Match;
 import com.sportsmanager.framework.Tactic;
 import com.sportsmanager.framework.Team;
+
+import java.io.Serializable;
 import java.util.Random;
 
-public class FootballMatch extends Match{
+public class FootballMatch extends Match implements Serializable {
+    private static final long serialVersionUID = 1L;
     private final int gameDuration = 90;
     FootballTeam homeTeam;
     FootballTeam awayTeam;

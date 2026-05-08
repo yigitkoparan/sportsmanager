@@ -2,10 +2,13 @@ package com.sportsmanager.volleyball;
 
 import com.sportsmanager.framework.Match;
 import com.sportsmanager.framework.Tactic;
+
+import java.io.Serializable;
 import java.util.Random;
 import java.util.ArrayList;
 
-public class VolleyballMatch extends Match {
+public class VolleyballMatch extends Match implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private VolleyballTeam homeTeam;
     private VolleyballTeam awayTeam;

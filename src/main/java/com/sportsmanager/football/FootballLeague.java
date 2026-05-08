@@ -1,11 +1,13 @@
 package com.sportsmanager.football;
 import com.sportsmanager.framework.League;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class FootballLeague extends League {
+public class FootballLeague extends League implements Serializable {
+    private static final long serialVersionUID = 1L;
     protected int teamNumber;
     private List<FootballTeam> teams;
     private List<FootballPlayer> players;

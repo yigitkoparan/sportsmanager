@@ -1,9 +1,11 @@
 package com.sportsmanager.framework;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.ArrayList;
 
-public abstract class Team {
+public abstract class Team implements Serializable {
+    private static final long serialVersionUID = 1L;
     protected String teamName;
     protected int gamesPlayed;
     protected int wins;

@@ -1,8 +1,10 @@
 package com.sportsmanager.framework;
+import java.io.Serializable;
 import java.util.Random;
 
 
-    public abstract class Player {
+    public abstract class Player implements Serializable {
+        private static final long serialVersionUID = 1L;
         protected String name;
         protected int age;
         protected boolean isInjured;

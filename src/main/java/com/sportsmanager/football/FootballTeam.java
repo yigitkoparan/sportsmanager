@@ -3,7 +3,10 @@ import com.sportsmanager.framework.Player;
 import com.sportsmanager.framework.Tactic;
 import com.sportsmanager.framework.Team;
 
-public class FootballTeam extends Team {
+import java.io.Serializable;
+
+public class FootballTeam extends Team implements Serializable {
+    private static final long serialVersionUID = 1L;
      int numberOfPlayer;
      int draw;
      int points;

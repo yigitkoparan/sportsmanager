@@ -1,6 +1,9 @@
 package com.sportsmanager.framework;
 
-public class Tactic {
+import java.io.Serializable;
+
+public class Tactic implements Serializable {
+    private static final long serialVersionUID = 1L;
    private String tacticName;
    private int modifier;
 

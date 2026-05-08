@@ -1,6 +1,9 @@
 package com.sportsmanager.framework;
 
-public abstract class Match {
+import java.io.Serializable;
+
+public abstract class Match implements Serializable {
+    private static final long serialVersionUID = 1L;
     protected int awayScore;
     protected int homeScore;
     public int getHomeScore() {

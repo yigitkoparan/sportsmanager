@@ -1,8 +1,10 @@
 package com.sportsmanager.football;
 import com.sportsmanager.framework.Player;
 
-public class FootballPlayer extends Player{
+import java.io.Serializable;
 
+public class FootballPlayer extends Player implements Serializable {
+    private static final long serialVersionUID = 1L;
 
         private int goals;
         private int assists;
