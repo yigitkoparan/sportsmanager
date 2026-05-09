@@ -30,9 +30,16 @@ public abstract class League implements Serializable {
         this.leagueName=leagueName;
         this.currentWeek=currentWeek;
     }
+    public void advanceWeek(){
+        this.currentWeek++;
+    }
 
     public abstract void generatePlayer();
     public abstract void generateStanding();
     public abstract void generateTeam();
+    public abstract void generateFixtureForWeek();
+    public abstract Match getUserMatch(Team userTeam);
+    public abstract void generateFullSeasonFixture();
+    public abstract void simulateRestOfMatches(Team userTeam);
 
 }

@@ -1,4 +1,140 @@
 package com.sportsmanager.volleyball;
 
-public class VolleyballLeague {
+import com.sportsmanager.framework.League;
+import com.sportsmanager.framework.Match;
+import com.sportsmanager.framework.Team;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+public class VolleyballLeague extends League implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    protected int teamNumber;
+    private List<VolleyballTeam> teams;
+    private List<VolleyballPlayer> players;
+
+
+    private List<List<VolleyballMatch>> seasonSchedule;
+    private transient List<VolleyballMatch> currentWeekMatches; // transient because we regenerate it from schedule
+
+    private String[] teamNames = {
+            "VakıfBank", "Eczacıbaşı", "Fenerbahçe Opet", "THY", "Kuzeyboru",
+            "Galatasaray Daikin", "Nilüfer Bld.", "Muratpaşa Bld.", "Sarıyer Bld.",
+            "Çukurova Bld.", "Beşiktaş Ayos", "Aydın BB", "PTT", "Karayolları",
+            "Zeren Spor", "Aras Kargo", "Bahçelievler Bld.", "Sigorta Shop"
+    };
+
+    public VolleyballLeague(String leagueName, int startWeek) {
+        super(leagueName, startWeek);
+        this.teamNumber = 18;
+        this.teams = new ArrayList<>();
+        this.players = new ArrayList<>();
+        this.seasonSchedule = new ArrayList<>();
+        this.currentWeekMatches = new ArrayList<>();
+    }
+
+
+
+    @Override
+    public void generatePlayer() {
+        Random rand = new Random();
+        for (int i = 0; i < teamNumber; i++) {
+            for (int j = 0; j < 6; j++) { // Volleyball usually has 6 active players
+                players.add(new VolleyballPlayer("Player_V" + i + j, rand.nextInt(15) + 20));
+            }
+        }
+    }
+
+    @Override
+    public void generateTeam() {
+        for (int i = 0; i < teamNumber; i++) {
+            VolleyballTeam team = new VolleyballTeam(teamNames[i]);
+            for (int j = 0; j < 6; j++) {
+                team.addPlayer(players.get(i * 6 + j));
+            }
+            teams.add(team);
+        }
+    }
+
+    @Override
+    public void generateStanding() {
+        if (teams == null || teams.isEmpty()) return;
+
+        teams.sort((t1, t2) -> {
+            int res = Integer.compare(t2.getPoints(), t1.getPoints());
+            if (res == 0) {
+                return Integer.compare(t2.getWinSet() - t2.getLoseSet(), t1.getWinSet() - t1.getLoseSet());
+            }
+            return res;
+        });
+    }
+
+
+
+    public void generateFullSeasonFixture() {
+        seasonSchedule.clear();
+        List<VolleyballTeam> rotatedTeams = new ArrayList<>(teams);
+
+        if (rotatedTeams.size() % 2 != 0) {
+            rotatedTeams.add(new VolleyballTeam("BYE"));
+        }
+
+        int numTeams = rotatedTeams.size();
+        int totalRounds = numTeams - 1;
+        int matchesPerRound = numTeams / 2;
+
+        for (int round = 0; round < totalRounds; round++) {
+            List<VolleyballMatch> roundMatches = new ArrayList<>();
+            for (int i = 0; i < matchesPerRound; i++) {
+                VolleyballTeam home = rotatedTeams.get(i);
+                VolleyballTeam away = rotatedTeams.get(numTeams - 1 - i);
+
+                if (!home.getTeamName().equals("BYE") && !away.getTeamName().equals("BYE")) {
+                    roundMatches.add(new VolleyballMatch(home, away));
+                }
+            }
+            seasonSchedule.add(roundMatches);
+
+
+            VolleyballTeam last = rotatedTeams.remove(numTeams - 1);
+            rotatedTeams.add(1, last);
+        }
+    }
+
+    public void generateFixtureForWeek() {
+        if (currentWeekMatches == null) currentWeekMatches = new ArrayList<>();
+        currentWeekMatches.clear();
+        int idx = currentWeek - 1;
+        if (idx >= 0 && idx < seasonSchedule.size()) {
+            currentWeekMatches.addAll(seasonSchedule.get(idx));
+        }
+    }
+
+
+
+    public Match getUserMatch(Team userTeam) {
+        return currentWeekMatches.stream()
+                .filter(m -> m.getHomeTeam().equals(userTeam) || m.getAwayTeam().equals(userTeam))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public void simulateRestOfMatches(Team userTeam) {
+        if (currentWeekMatches == null) return;
+
+        for (VolleyballMatch m : currentWeekMatches) {
+            if (!m.getHomeTeam().equals(userTeam) && !m.getAwayTeam().equals(userTeam)) {
+
+                while (!m.isMatchFinished()) {
+                    m.playNextSet();
+                }
+            }
+        }
+    }
+
+
+    public List<VolleyballTeam> getTeams() { return teams; }
 }

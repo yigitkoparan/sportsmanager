@@ -4,7 +4,11 @@ import com.sportsmanager.football.FootballLeague;
 import com.sportsmanager.football.FootballMatch;
 import com.sportsmanager.football.FootballPlayer;
 import com.sportsmanager.football.FootballTeam;
+import com.sportsmanager.framework.League;
+import com.sportsmanager.framework.Match;
 import com.sportsmanager.framework.Player;
+import com.sportsmanager.framework.Team;
+import com.sportsmanager.volleyball.VolleyballLeague;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -32,14 +36,14 @@ public class MainDashboardController {
 
     @FXML private ListView<String> playerList;
 
-    @FXML private TableView<FootballTeam> standings;
-    @FXML private TableColumn<FootballTeam, String> teamNames;
-    @FXML private TableColumn<FootballTeam, Integer> points;
+    @FXML private TableView<Team> standings;
+    @FXML private TableColumn<Team, String> teamNames;
+    @FXML private TableColumn<Team, Integer> points;
 
-    private FootballLeague league;
-    private FootballTeam userTeam;
+    private League league;
+    private Team userTeam;
 
-    public void initDate(FootballLeague league, FootballTeam userTeam){
+    public void initDate(League league, Team userTeam){
         this.league = league;
         this.userTeam = userTeam;
 
@@ -57,40 +61,42 @@ public class MainDashboardController {
                 new SimpleStringProperty(cellData.getValue().getTeamName())
         );
         points.setCellValueFactory(new PropertyValueFactory<>("points"));
-        league.generateFixtureForWeek();
-        FootballMatch humanMatch = league.getUserMatch(userTeam);
 
+        refreshTable();
+    }
+
+    public void refreshTable(){
         league.generateStanding();
-        standings.setItems(FXCollections.observableArrayList(league.getTeams()));
 
-        points.setSortType(TableColumn.SortType.DESCENDING);
-        standings.getSortOrder().add(points);
-        standings.sort();
+        if(league instanceof FootballLeague){
+            standings.setItems(FXCollections.observableArrayList(((FootballLeague)league).getTeams()));
+        } else if (league instanceof VolleyballLeague) {
+            standings.setItems(FXCollections.observableArrayList(((VolleyballLeague)league).getTeams()));
+        }
     }
 
     @FXML
     private void handleSimulateWeek(ActionEvent event) throws IOException {
-
-        FootballMatch humanMatch = league.getUserMatch(userTeam);
+        league.generateFixtureForWeek();
+        Match humanMatch = league.getUserMatch(userTeam);
 
         if (humanMatch != null) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/MatchSimulation.fxml"));
+            String fxmlPath = (league instanceof FootballLeague) ? "/MatchSimulation.fxml" : "/VolleyballMatchSimulation.fxml";
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
 
-            MatchSimulationController controller = loader.getController();
-            controller.initData(this.league, this.userTeam, humanMatch);
 
-            javafx.stage.Stage stage = (javafx.stage.Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new javafx.scene.Scene(root));
-        } else {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ChampionScreen.fxml"));
-            Parent root = loader.load();
+            if (league instanceof FootballLeague) {
+                MatchSimulationController controller = loader.getController();
+                controller.initData((FootballLeague) league, (com.sportsmanager.football.FootballTeam) userTeam, (com.sportsmanager.football.FootballMatch) humanMatch);
+            }
 
-            ChampionScreenController controller = loader.getController();
-            controller.initData(league,userTeam);
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
+        } else {
+            System.out.println("Season Finished!");
         }
     }
 
@@ -101,7 +107,7 @@ public class MainDashboardController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save Your Football Game");
 
-        fileChooser.setInitialFileName("my_football_career.dat");
+        fileChooser.setInitialFileName("my_manager_career.dat");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Save Files", "*.dat"));
 
         File file = fileChooser.showSaveDialog(stage);

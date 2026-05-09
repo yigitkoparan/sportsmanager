@@ -2,6 +2,7 @@ package com.sportsmanager;
 
 import com.sportsmanager.football.FootballLeague;
 import com.sportsmanager.framework.League;
+import com.sportsmanager.volleyball.VolleyballLeague;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,14 +16,28 @@ import java.io.IOException;
 public class SportSelectionController {
 
     @FXML
-    private void handleSelectFootball(ActionEvent event) throws IOException{
-        FootballLeague league = new FootballLeague("Süper Lig",1);
+    private void handleSelectFootball(ActionEvent event) throws IOException {
+
+        FootballLeague league = new FootballLeague("Süper Lig", 1);
+        setupAndNavigate(event, league);
+    }
+
+    @FXML
+    private void handleSelectVolleyball(ActionEvent event) throws IOException {
+
+        VolleyballLeague league = new VolleyballLeague("Sultanlar Ligi", 1);
+        setupAndNavigate(event, league);
+    }
+
+    private void setupAndNavigate(ActionEvent event, League league) throws IOException {
+        
         league.generatePlayer();
         league.generateTeam();
         league.generateFullSeasonFixture();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/TeamSelection.fxml"));
         Parent root = loader.load();
+
 
         TeamSelectionController controller = loader.getController();
         controller.initData(league);
@@ -32,3 +47,4 @@ public class SportSelectionController {
         stage.show();
     }
 }
+

@@ -16,8 +16,10 @@ public class VolleyballMatch extends Match implements Serializable {
     private int homeTeamSet;
     private int awayTeamSet;
 
+
     private ArrayList<String> sets = new ArrayList<>();
-    private Random rand = new Random();
+
+    private transient Random rand = new Random();
 
     public VolleyballMatch(VolleyballTeam homeTeam, VolleyballTeam awayTeam) {
         super(0, 0);
@@ -27,7 +29,26 @@ public class VolleyballMatch extends Match implements Serializable {
         this.awayTeamSet = 0;
     }
 
-    private void playSet(int targetScore, double homeSkill, double awaySkill) {
+
+    public boolean playNextSet() {
+        if (isMatchFinished()) return false;
+        if (rand == null) rand = new Random();
+        int targetScore = (homeTeamSet == 2 && awayTeamSet == 2) ? 15 : 25;
+
+        simulateSetPoints(targetScore);
+        finalizeSetResult();
+
+        if (isMatchFinished()) {
+            distributeLeaguePoints();
+            return false;
+        }
+        return true;
+    }
+
+
+    private void simulateSetPoints(int targetScore) {
+        double homeSkill = homeTeam.calculateTeamSkill();
+        double awaySkill = awayTeam.calculateTeamSkill();
 
         while (homeScore < targetScore && awayScore < targetScore) {
 
@@ -40,12 +61,11 @@ public class VolleyballMatch extends Match implements Serializable {
             if (homeProb > awayProb) homeScore++;
             else if (awayProb > homeProb) awayScore++;
 
+
             if (homeScore == targetScore - 1 && awayScore == targetScore - 1) {
                 while (Math.abs(homeScore - awayScore) < 2) {
-
                     homeProb = rand.nextInt(Math.max(1, homeBound));
                     awayProb = rand.nextInt(Math.max(1, awayBound));
-
                     if (homeProb > awayProb) homeScore++;
                     else if (awayProb > homeProb) awayScore++;
                 }
@@ -53,8 +73,8 @@ public class VolleyballMatch extends Match implements Serializable {
         }
     }
 
-    private void finishSet() {
 
+    private void finalizeSetResult() {
         if (homeScore > awayScore) {
             homeTeamSet++;
             homeTeam.setWinSet(homeTeam.getWinSet() + 1);
@@ -65,74 +85,37 @@ public class VolleyballMatch extends Match implements Serializable {
             homeTeam.setLoseSet(homeTeam.getLoseSet() + 1);
         }
 
-        homeTeam.setPointScored(homeTeam.getPointScored() + homeScore);
-        homeTeam.setOpponentPoint(homeTeam.getOpponentPoint() + awayScore);
 
-        awayTeam.setPointScored(awayTeam.getPointScored() + awayScore);
-        awayTeam.setOpponentPoint(awayTeam.getOpponentPoint() + homeScore);
+        sets.add("Set " + (sets.size() + 1) + ": " + homeScore + " - " + awayScore);
 
-        int setNumber = sets.size() + 1;
-        sets.add(setNumber + ". set " + homeScore + "-" + awayScore);
 
         homeScore = 0;
         awayScore = 0;
     }
 
-    private void adjustTactics() {
 
-        if (homeTeamSet < awayTeamSet) {
-            homeTeam.setTactic(new Tactic("Offense", 5));
-        } else {
-            homeTeam.setTactic(new Tactic("Balanced", 0));
-        }
-
-        if (awayTeamSet < homeTeamSet) {
-            awayTeam.setTactic(new Tactic("Offense", 5));
-        } else {
-            awayTeam.setTactic(new Tactic("Balanced", 0));
-        }
-    }
-
-    
-    public void simulate() {
-
-        double homeSkill = homeTeam.calculateTeamSkill();
-        double awaySkill = awayTeam.calculateTeamSkill();
-
-        while (homeTeamSet < 3 && awayTeamSet < 3) {
-
-            boolean isFinalSet = (homeTeamSet == 2 && awayTeamSet == 2);
-
-            if (isFinalSet) {
-                playSet(15, homeSkill, awaySkill);
-            } else {
-                playSet(25, homeSkill, awaySkill);
-            }
-
-            finishSet();
-            adjustTactics();
-        }
-
-        if (homeTeamSet == 3 && (awayTeamSet == 0 || awayTeamSet == 1)) {
+    private void distributeLeaguePoints() {
+        if (homeTeamSet == 3 && awayTeamSet < 2) {
             homeTeam.setPoints(homeTeam.getPoints() + 3);
-        }
-        else if (awayTeamSet == 3 && (homeTeamSet == 0 || homeTeamSet == 1)) {
+        } else if (awayTeamSet == 3 && homeTeamSet < 2) {
             awayTeam.setPoints(awayTeam.getPoints() + 3);
-        }
-        else if (homeTeamSet == 3 && awayTeamSet == 2) {
+        } else if (homeTeamSet == 3 && awayTeamSet == 2) {
             homeTeam.setPoints(homeTeam.getPoints() + 2);
             awayTeam.setPoints(awayTeam.getPoints() + 1);
-        }
-        else if (awayTeamSet == 3 && homeTeamSet == 2) {
+        } else if (awayTeamSet == 3 && homeTeamSet == 2) {
             awayTeam.setPoints(awayTeam.getPoints() + 2);
             homeTeam.setPoints(homeTeam.getPoints() + 1);
         }
     }
 
-    public void printMatch() {
-        for (String s : sets) {
-            System.out.println(s);
-        }
-        System.out.println("Final: " + homeTeamSet + " - " + awayTeamSet);
+    public boolean isMatchFinished() {
+        return homeTeamSet == 3 || awayTeamSet == 3;
     }
+
+
+    public VolleyballTeam getHomeTeam() { return homeTeam; }
+    public VolleyballTeam getAwayTeam() { return awayTeam; }
+    public int getHomeTeamSet() { return homeTeamSet; }
+    public int getAwayTeamSet() { return awayTeamSet; }
+    public ArrayList<String> getSets() { return sets; }
 }

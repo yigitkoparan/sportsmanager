@@ -1,5 +1,7 @@
 package com.sportsmanager.football;
 import com.sportsmanager.framework.League;
+import com.sportsmanager.framework.Match;
+import com.sportsmanager.framework.Team;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -119,24 +121,20 @@ public class FootballLeague extends League implements Serializable {
         }
     }
 
-    public FootballMatch getUserMatch(FootballTeam userTeam) {
+    public Match getUserMatch(Team userTeam) {
         return currentWeekMatches.stream()
                 .filter(m -> m.getHomeTeam().equals(userTeam) || m.getAwayTeam().equals(userTeam))
                 .findFirst()
                 .orElse(null);
     }
 
-    public void simulateRestOfMatches(FootballTeam userTeam) {
+    public void simulateRestOfMatches(Team userTeam) {
         for (FootballMatch match : currentWeekMatches) {
             if (!match.getHomeTeam().equals(userTeam) && !match.getAwayTeam().equals(userTeam)) {
                 match.simulateFirstHalf();
                 match.simulateSecondHalf();
             }
         }
-    }
-
-    public void advanceWeek(){
-        this.currentWeek++;
     }
 
 }
