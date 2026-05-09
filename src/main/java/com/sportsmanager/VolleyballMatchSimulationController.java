@@ -47,7 +47,7 @@ public class VolleyballMatchSimulationController {
 
         lblScore.setText("0 - 0");
         btnAction.setText("Play First Set");
-        handleManualSubstitution();
+        refreshSubstitutionBoxes();
     }
 
     private void refreshSubstitutionBoxes() {
@@ -92,28 +92,15 @@ public class VolleyballMatchSimulationController {
         Player out = null;
         Player in = null;
 
-        for(Player p : userTeam.getPlayers()){
-
-            if(p.getName().equals(starterName)){
-                out = p;
-            }
-
-            if(p.getName().equals(subName)){
-                in = p;
-            }
-        }
-
         if(out != null && in != null){
-
             handleSubstitution(out, in);
 
-            setList.getItems().add(
-                    out.getName()
-                            + " OUT | "
-                            + in.getName()
-                            + " IN"
-            );
+            match.getSets().add(out.getName() + " OUT | " + in.getName() + " IN");
 
+            cmbStarter.setValue(null);
+            cmbSub.setValue(null);
+
+            updateUI();
             refreshSubstitutionBoxes();
         }
     }
@@ -128,6 +115,7 @@ public class VolleyballMatchSimulationController {
         applyTactic();
         match.playNextSet();
         updateUI();
+        handleManualSubstitution();
 
         if (match.isMatchFinished()) {
             btnAction.setText("Match Over - Return to Dashboard");
