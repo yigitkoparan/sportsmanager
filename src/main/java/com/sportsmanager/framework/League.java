@@ -8,7 +8,12 @@ public abstract class League implements Serializable {
     private static final long serialVersionUID = 1L;
     protected String leagueName;
     protected int currentWeek;
+    protected boolean trainingDone = false;
 
+
+    public boolean isTrainingDone() { return trainingDone; }
+
+    public void setTrainingDone(boolean trainingDone) { this.trainingDone = trainingDone; }
 
     public int getCurrentWeek() {
         return currentWeek;
@@ -32,6 +37,7 @@ public abstract class League implements Serializable {
     }
     public void advanceWeek(){
         this.currentWeek++;
+        trainingDone = false;
     }
 
     public abstract void generatePlayer();

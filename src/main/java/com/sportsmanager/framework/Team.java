@@ -110,5 +110,13 @@ public abstract class Team implements Serializable {
         }
     }
 
+    public void trainPlayers() {
+        for (Player p : players) {
+            if (p.getSkillLevel() < 12) {
+                p.setSkillLevel(p.getSkillLevel() + 1);
+            }
+        }
+    }
+
 }
 

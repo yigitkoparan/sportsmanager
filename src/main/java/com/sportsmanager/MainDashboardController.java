@@ -35,6 +35,7 @@ import java.io.ObjectOutputStream;
 public class MainDashboardController {
     @FXML private Label UserTeamName;
     @FXML private Label LeagueName;
+    @FXML private Label lblTrainingStatus;
 
     @FXML private ListView<String> playerList;
 
@@ -84,6 +85,13 @@ public class MainDashboardController {
         points.setCellValueFactory(cellData ->
                 new javafx.beans.property.SimpleObjectProperty<>(cellData.getValue().getPoints())
         );
+
+        if (league.isTrainingDone()) {
+            lblTrainingStatus.setText("Status: Training Complete");
+        }else {
+            lblTrainingStatus.setText("Status: Training Available");
+        }
+
 
         refreshTable();
     }
@@ -163,5 +171,21 @@ public class MainDashboardController {
                 e.printStackTrace();
             }
         }
+    }
+
+    @FXML
+    private void handleTraining(ActionEvent event) {
+        if (league.isTrainingDone()) {
+            System.out.println("Training already completed for this week!");
+            return;
+        }
+
+        userTeam.trainPlayers();
+
+        league.setTrainingDone(true);
+
+        initDate(league, userTeam);
+
+        System.out.println("Training complete! Players improved.");
     }
 }
