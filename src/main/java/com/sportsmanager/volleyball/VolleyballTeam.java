@@ -8,7 +8,6 @@ import java.io.Serializable;
 public class VolleyballTeam extends Team implements Serializable {
     private static final long serialVersionUID = 1L;
     int numberOfPlayer;
-    int points;
     int pointScored;
     int opponentPoint;
     int winSet;
@@ -50,16 +49,6 @@ public class VolleyballTeam extends Team implements Serializable {
     public void setPointScored(int pointScored) {
         this.pointScored = pointScored;
     }
-
-
-    public int getPoints() {
-        return points;
-    }
-
-    public void setPoints(int points) {
-        this.points = points;
-    }
-
 
 
     public VolleyballTeam(String teamName){

@@ -9,7 +9,6 @@ public class FootballTeam extends Team implements Serializable {
     private static final long serialVersionUID = 1L;
      int numberOfPlayer;
      int draw;
-     int points;
      int goalsScored;
 
     public int getGoalsScored() {
@@ -19,16 +18,6 @@ public class FootballTeam extends Team implements Serializable {
     public void setGoalsScored(int goalsScored) {
         this.goalsScored = goalsScored;
     }
-
-
-    public int getPoints() {
-        return points;
-    }
-
-    public void setPoints(int points) {
-        this.points = points;
-    }
-
 
      public int getDraw() {
          return draw;

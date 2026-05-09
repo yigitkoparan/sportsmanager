@@ -9,6 +9,8 @@ import com.sportsmanager.framework.Match;
 import com.sportsmanager.framework.Player;
 import com.sportsmanager.framework.Team;
 import com.sportsmanager.volleyball.VolleyballLeague;
+import com.sportsmanager.volleyball.VolleyballMatch;
+import com.sportsmanager.volleyball.VolleyballTeam;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -50,6 +52,9 @@ public class MainDashboardController {
         UserTeamName.setText(userTeam.getTeamName());
         LeagueName.setText(league.getLeagueName());
 
+        teamNames.setText("Team");
+        points.setText("Points");
+
         playerList.getItems().clear();
 
         UserTeamName.setText(userTeam.getTeamName());
@@ -60,7 +65,9 @@ public class MainDashboardController {
         teamNames.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getTeamName())
         );
-        points.setCellValueFactory(new PropertyValueFactory<>("points"));
+        points.setCellValueFactory(cellData ->
+                new javafx.beans.property.SimpleObjectProperty<>(cellData.getValue().getPoints())
+        );
 
         refreshTable();
     }
@@ -90,6 +97,9 @@ public class MainDashboardController {
             if (league instanceof FootballLeague) {
                 MatchSimulationController controller = loader.getController();
                 controller.initData((FootballLeague) league, (com.sportsmanager.football.FootballTeam) userTeam, (com.sportsmanager.football.FootballMatch) humanMatch);
+            }else if (league instanceof VolleyballLeague) {
+                VolleyballMatchSimulationController controller = loader.getController();
+                controller.initData((VolleyballLeague) league, (VolleyballTeam) userTeam, (VolleyballMatch) humanMatch);
             }
 
 

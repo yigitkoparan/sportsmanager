@@ -10,6 +10,7 @@ public abstract class Team implements Serializable {
     protected int gamesPlayed;
     protected int wins;
     protected int losses;
+    protected int points;
     protected List<Player> players;
     protected double teamSkill;
     private Tactic currentTactic;
@@ -66,11 +67,17 @@ public abstract class Team implements Serializable {
         players.add(player);
     }
 
+    public int getPoints() { return points; }
+
+    public void setPoints(int points) { this.points = points; }
+
     public Team(String teamName,int gamesPlayed) {
         this.teamName = teamName;
         this.gamesPlayed = gamesPlayed;
         this.wins = 0;
         this.losses = 0;
+        this.points = 0;
+        this.teamSkill = 0;
         this.players = new ArrayList<>();
         this.teamSkill = calculateTeamSkill();
         this.currentTactic = new Tactic("Balanced",0);
