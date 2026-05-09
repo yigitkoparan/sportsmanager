@@ -125,7 +125,8 @@ public class MainDashboardController {
 
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
+            stage.getScene().setRoot(root);
+            stage.show();
         } else {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ChampionScreen.fxml"));
             Parent root = loader.load();
@@ -134,7 +135,7 @@ public class MainDashboardController {
             controller.initData(this.league, this.userTeam);
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
+            stage.getScene().setRoot(root);
             stage.show();
         }
     }

@@ -27,7 +27,8 @@ public class MainMenuController {
     private void newGame(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/SportSelection.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
+        stage.getScene().setRoot(root);
+        stage.show();
     }
 
     @FXML

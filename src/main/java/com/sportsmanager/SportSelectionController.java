@@ -43,7 +43,7 @@ public class SportSelectionController {
         controller.initData(league);
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
+        stage.getScene().setRoot(root);
         stage.show();
     }
 }

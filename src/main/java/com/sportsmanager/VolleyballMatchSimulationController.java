@@ -147,7 +147,7 @@ public class VolleyballMatchSimulationController {
         controller.initDate(this.league, this.userTeam);
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
+        stage.getScene().setRoot(root);
         stage.show();
     }
 

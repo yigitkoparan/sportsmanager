@@ -142,7 +142,8 @@ public class MatchSimulationController {
             controller.initDate(league, userTeam);
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
+            stage.getScene().setRoot(root);
+            stage.show();
         }
     }
 
