@@ -70,7 +70,13 @@ public class FootballLeague extends League implements Serializable {
         if(teams == null || teams.isEmpty()){
             return;
         }
-        teams.sort((t1, t2) -> Integer.compare(t2.getPoints(), t1.getPoints()));
+        teams.sort((t1, t2) -> {
+            if (t1.getPoints() != t2.getPoints()) {
+                return Integer.compare(t2.getPoints(), t1.getPoints());
+            }
+
+            return Integer.compare(t2.getAverage(), t1.getAverage());
+        });
     }
 
     public void generateFullSeasonFixture() {

@@ -42,6 +42,7 @@ public class MainDashboardController {
     @FXML private TableView<Team> standings;
     @FXML private TableColumn<Team, String> teamNames;
     @FXML private TableColumn<Team, Integer> points;
+    @FXML private TableColumn<Team,Integer> average;
 
     private League league;
     private Team userTeam;
@@ -55,6 +56,7 @@ public class MainDashboardController {
 
         teamNames.setText("Team");
         points.setText("Points");
+        average.setText("Average");
 
         playerList.getItems().clear();
 
@@ -84,6 +86,9 @@ public class MainDashboardController {
         );
         points.setCellValueFactory(cellData ->
                 new javafx.beans.property.SimpleObjectProperty<>(cellData.getValue().getPoints())
+        );
+        average.setCellValueFactory(cellData ->
+                new javafx.beans.property.SimpleObjectProperty<>(cellData.getValue().getAverage())
         );
 
         if (league.isTrainingDone()) {

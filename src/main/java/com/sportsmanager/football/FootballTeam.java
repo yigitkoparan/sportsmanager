@@ -6,16 +6,25 @@ import com.sportsmanager.framework.Team;
 import java.io.Serializable;
 
 public class FootballTeam extends Team implements Serializable {
-    private static final long serialVersionUID = 1L;
+     private static final long serialVersionUID = 1L;
      int numberOfPlayer;
      int draw;
      int goalsScored;
+     int goalsConceded;
 
-    public int getGoalsScored() {
+     public int getGoalsConceded() {
+        return goalsConceded;
+    }
+
+     public void setGoalsConceded(int goalsConceded) {
+        this.goalsConceded = goalsConceded;
+    }
+
+     public int getGoalsScored() {
         return goalsScored;
     }
 
-    public void setGoalsScored(int goalsScored) {
+     public void setGoalsScored(int goalsScored) {
         this.goalsScored = goalsScored;
     }
 
@@ -47,5 +56,10 @@ public class FootballTeam extends Team implements Serializable {
          return total/(double)counter;
 
      }
+
+    @Override
+    public int getAverage() {
+        return this.goalsScored-this.goalsConceded;
+    }
 }
 

@@ -118,5 +118,7 @@ public abstract class Team implements Serializable {
         }
     }
 
+    public abstract int getAverage();
+
 }
 

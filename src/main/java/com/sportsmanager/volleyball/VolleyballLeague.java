@@ -65,11 +65,11 @@ public class VolleyballLeague extends League implements Serializable {
         if (teams == null || teams.isEmpty()) return;
 
         teams.sort((t1, t2) -> {
-            int res = Integer.compare(t2.getPoints(), t1.getPoints());
-            if (res == 0) {
-                return Integer.compare(t2.getWinSet() - t2.getLoseSet(), t1.getWinSet() - t1.getLoseSet());
+            if (t1.getPoints() != t2.getPoints()) {
+                return Integer.compare(t2.getPoints(), t1.getPoints());
             }
-            return res;
+
+            return Integer.compare(t2.getAverage(), t1.getAverage());
         });
     }
 

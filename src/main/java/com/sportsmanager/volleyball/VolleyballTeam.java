@@ -71,7 +71,10 @@ public class VolleyballTeam extends Team implements Serializable {
             counter++;
         }
         return total/(double)counter;
-
     }
 
+    @Override
+    public int getAverage() {
+        return this.winSet-this.loseSet;
+    }
 }

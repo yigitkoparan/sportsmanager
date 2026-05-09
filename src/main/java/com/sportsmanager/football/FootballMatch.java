@@ -62,6 +62,8 @@ public class FootballMatch extends Match implements Serializable {
 
         homeTeam.setGoalsScored(homeTeam.getGoalsScored() + homeScore);
         awayTeam.setGoalsScored(awayTeam.getGoalsScored() + awayScore);
+        homeTeam.setGoalsConceded(homeTeam.getGoalsConceded() +  awayScore);
+        awayTeam.setGoalsConceded(awayTeam.getGoalsConceded() + homeScore);
 
         checkForInjuries(homeTeam);
         checkForInjuries(awayTeam);
