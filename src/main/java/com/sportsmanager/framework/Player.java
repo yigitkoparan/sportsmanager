@@ -8,8 +8,23 @@ import java.util.Random;
         protected String name;
         protected int age;
         protected boolean isInjured;
+        protected int injuryDuration = 0;
         protected int skillLevel;
         Random r =new Random();
+
+        public void healOneMatch() {
+            if (injuryDuration > 0) {
+                injuryDuration--;
+                if (injuryDuration == 0) this.isInjured = false;
+            }
+        }
+
+        public int getInjuryDuration() { return injuryDuration; }
+
+        public void setInjuryDuration(int duration) {
+            this.injuryDuration = duration;
+            this.isInjured = (duration > 0);
+        }
 
         public int getAge() {
             return age;

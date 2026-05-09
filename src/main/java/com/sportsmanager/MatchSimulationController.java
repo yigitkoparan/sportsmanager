@@ -3,6 +3,7 @@ package com.sportsmanager;
 import com.sportsmanager.football.FootballLeague;
 import com.sportsmanager.football.FootballMatch;
 import com.sportsmanager.football.FootballTeam;
+import com.sportsmanager.framework.Player;
 import com.sportsmanager.framework.Tactic;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,6 +17,7 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Collections;
 
 public class MatchSimulationController {
     @FXML private Label lblTeams;
@@ -23,6 +25,7 @@ public class MatchSimulationController {
     @FXML private ComboBox<String> cmbTactics;
     @FXML private Button btnAction;
 
+    private int subsLeft = 2;
     private FootballLeague league;
     private FootballTeam userTeam;
     private FootballMatch activeMatch;
@@ -77,6 +80,16 @@ public class MatchSimulationController {
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
+        }
+    }
+
+    private void handleSubstitution(Player out, Player in) {
+        if (subsLeft > 0 && !in.isInjured()) {
+            Collections.swap(userTeam.getPlayers(),
+                    userTeam.getPlayers().indexOf(out),
+                    userTeam.getPlayers().indexOf(in));
+            subsLeft--;
+            System.out.println("Substitution successful. Subs remaining: " + subsLeft);
         }
     }
 }

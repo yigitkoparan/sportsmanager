@@ -2,6 +2,7 @@ package com.sportsmanager.volleyball;
 
 import com.sportsmanager.framework.League;
 import com.sportsmanager.framework.Match;
+import com.sportsmanager.framework.Player;
 import com.sportsmanager.framework.Team;
 
 import java.io.Serializable;
@@ -42,7 +43,7 @@ public class VolleyballLeague extends League implements Serializable {
     public void generatePlayer() {
         Random rand = new Random();
         for (int i = 0; i < teamNumber; i++) {
-            for (int j = 0; j < 6; j++) { // Volleyball usually has 6 active players
+            for (int j = 0; j < 12; j++) {
                 players.add(new VolleyballPlayer("Player_V" + i + j, rand.nextInt(15) + 20));
             }
         }
@@ -52,8 +53,8 @@ public class VolleyballLeague extends League implements Serializable {
     public void generateTeam() {
         for (int i = 0; i < teamNumber; i++) {
             VolleyballTeam team = new VolleyballTeam(teamNames[i]);
-            for (int j = 0; j < 6; j++) {
-                team.addPlayer(players.get(i * 6 + j));
+            for (int j = 0; j < 12; j++) {
+                team.addPlayer(players.get(i * 12 + j));
             }
             teams.add(team);
         }
@@ -132,6 +133,17 @@ public class VolleyballLeague extends League implements Serializable {
                     m.playNextSet();
                 }
             }
+        }
+    }
+
+    @Override
+    public void advanceWeek() {
+        super.advanceWeek();
+        for (Team t : teams) {
+            for (Player p : t.getPlayers()) {
+                p.healOneMatch();
+            }
+            t.setSubsRemaining(2);
         }
     }
 

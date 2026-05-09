@@ -1,5 +1,6 @@
 package com.sportsmanager.football;
 import com.sportsmanager.framework.Match;
+import com.sportsmanager.framework.Player;
 import com.sportsmanager.framework.Tactic;
 import com.sportsmanager.framework.Team;
 
@@ -62,5 +63,17 @@ public class FootballMatch extends Match implements Serializable {
         homeTeam.setGoalsScored(homeTeam.getGoalsScored() + homeScore);
         awayTeam.setGoalsScored(awayTeam.getGoalsScored() + awayScore);
 
+        checkForInjuries(homeTeam);
+        checkForInjuries(awayTeam);
+    }
+
+    private void checkForInjuries(Team team) {
+        Random rand = new Random();
+        for (Player p : team.getPlayers()) {
+
+            if (rand.nextDouble() < 0.05) {
+                p.setInjuryDuration(rand.nextInt(3) + 1);
+            }
+        }
     }
 }

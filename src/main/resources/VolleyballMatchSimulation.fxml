@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -23,8 +24,14 @@
       </HBox>
       <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <children>
-            <Button fx:id="btnAction" mnemonicParsing="false" onAction="#handleMatchProgress" text="Button" />
+            <Button fx:id="btnAction" mnemonicParsing="false" onAction="#handleMatchProgress" text="Button">
+               <HBox.margin>
+                  <Insets right="30.0" />
+               </HBox.margin></Button>
          </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
       </HBox>
    </children>
 </VBox>

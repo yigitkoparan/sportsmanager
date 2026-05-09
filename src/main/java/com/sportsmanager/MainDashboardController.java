@@ -57,9 +57,25 @@ public class MainDashboardController {
 
         playerList.getItems().clear();
 
-        UserTeamName.setText(userTeam.getTeamName());
-        for (Player p : userTeam.getPlayers()){
-            playerList.getItems().add((p.getName() + " || Overall  =  " + p.getSkillLevel()));
+        int starterCount = (league instanceof FootballLeague) ? 11 : 6;
+
+        for (int i = 0; i < userTeam.getPlayers().size(); i++) {
+            Player p = userTeam.getPlayers().get(i);
+
+            String role = (i < starterCount) ? "[STARTER]" : "[SUB]";
+
+            String injuryStatus = "";
+            if (p.isInjured()) {
+                injuryStatus = " (INJURED - " + p.getInjuryDuration() + " matches left)";
+            }
+
+            String displayString = String.format("%s %s | Ovr: %d%s",
+                    role,
+                    p.getName(),
+                    p.getSkillLevel(),
+                    injuryStatus);
+
+            playerList.getItems().add(displayString);
         }
 
         teamNames.setCellValueFactory(cellData ->
@@ -89,6 +105,11 @@ public class MainDashboardController {
 
         if (humanMatch != null) {
             String fxmlPath = (league instanceof FootballLeague) ? "/MatchSimulation.fxml" : "/VolleyballMatchSimulation.fxml";
+
+            int starterCount = (league instanceof FootballLeague) ? 11 : 6;
+            userTeam.handleAutoSubstitutions(starterCount);
+
+            refreshTable();
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();

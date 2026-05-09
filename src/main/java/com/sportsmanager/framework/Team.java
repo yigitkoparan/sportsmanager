@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.ArrayList;
 
+import static java.util.Collections.swap;
+
 public abstract class Team implements Serializable {
     private static final long serialVersionUID = 1L;
     protected String teamName;
@@ -14,6 +16,7 @@ public abstract class Team implements Serializable {
     protected List<Player> players;
     protected double teamSkill;
     private Tactic currentTactic;
+    protected int subsRemaining = 2;
 
     public Tactic getTactic(){
         return currentTactic;
@@ -22,6 +25,10 @@ public abstract class Team implements Serializable {
     public void setTactic(Tactic tactic){
         this.currentTactic = tactic;
     }
+
+    public int getSubsRemaining() { return subsRemaining; }
+
+    public void setSubsRemaining(int subs) { this.subsRemaining = subs;}
 
     public List<Player> getPlayers() {
         return players;
@@ -85,6 +92,23 @@ public abstract class Team implements Serializable {
 
     public abstract double calculateTeamSkill() ;
 
+    public void handleAutoSubstitutions(int starterCount) {
+        for (int i = 0; i < starterCount; i++) {
+            Player starter = players.get(i);
+
+            if (starter.isInjured()) {
+                for (int j = starterCount; j < players.size(); j++) {
+                    Player sub = players.get(j);
+
+                    if (!sub.isInjured()) {
+                        swap(players, i, j);
+                        System.out.println("Auto-Sub: " + sub.getName() + " replaced injured " + starter.getName());
+                        break;
+                    }
+                }
+            }
+        }
+    }
 
 }
 

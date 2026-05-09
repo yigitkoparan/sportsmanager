@@ -1,7 +1,9 @@
 package com.sportsmanager.volleyball;
 
 import com.sportsmanager.framework.Match;
+import com.sportsmanager.framework.Player;
 import com.sportsmanager.framework.Tactic;
+import com.sportsmanager.framework.Team;
 
 import java.io.Serializable;
 import java.util.Random;
@@ -105,6 +107,19 @@ public class VolleyballMatch extends Match implements Serializable {
         } else if (awayTeamSet == 3 && homeTeamSet == 2) {
             awayTeam.setPoints(awayTeam.getPoints() + 2);
             homeTeam.setPoints(homeTeam.getPoints() + 1);
+        }
+
+        checkForInjuries(homeTeam);
+        checkForInjuries(awayTeam);
+    }
+
+    private void checkForInjuries(Team team) {
+        Random rand = new Random();
+        for (Player p : team.getPlayers()) {
+
+            if (rand.nextDouble() < 0.05) {
+                p.setInjuryDuration(rand.nextInt(3) + 1);
+            }
         }
     }
 

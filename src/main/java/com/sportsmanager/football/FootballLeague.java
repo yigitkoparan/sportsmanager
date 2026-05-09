@@ -1,6 +1,7 @@
 package com.sportsmanager.football;
 import com.sportsmanager.framework.League;
 import com.sportsmanager.framework.Match;
+import com.sportsmanager.framework.Player;
 import com.sportsmanager.framework.Team;
 
 import java.io.Serializable;
@@ -48,7 +49,7 @@ public class FootballLeague extends League implements Serializable {
     public void generateTeam() {
         for(int i = 0; i < teamNumber; i++){
             teams.add(new FootballTeam(teamNames[i]));
-            for(int j = 0; j < 11; j++){
+            for(int j = 0; j < 18; j++){
                 teams.get(i).addPlayer(players.get(i+j));
             }
         }
@@ -57,7 +58,7 @@ public class FootballLeague extends League implements Serializable {
     @Override
     public void generatePlayer() {
         for(int i = 0; i < teamNumber; i++){
-            for(int j = 0; j < 11; j++){
+            for(int j = 0; j < 18; j++){
                 players.add(new FootballPlayer("player"+i+j, rand.nextInt(15)+20));
             }
         }
@@ -134,6 +135,17 @@ public class FootballLeague extends League implements Serializable {
                 match.simulateFirstHalf();
                 match.simulateSecondHalf();
             }
+        }
+    }
+
+    @Override
+    public void advanceWeek() {
+        super.advanceWeek();
+        for (Team t : teams) {
+            for (Player p : t.getPlayers()) {
+                p.healOneMatch();
+            }
+            t.setSubsRemaining(2); // Reset subs for the next match
         }
     }
 

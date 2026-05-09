@@ -1,5 +1,6 @@
 package com.sportsmanager;
 
+import com.sportsmanager.framework.Player;
 import com.sportsmanager.volleyball.VolleyballLeague;
 import com.sportsmanager.volleyball.VolleyballMatch;
 import com.sportsmanager.volleyball.VolleyballTeam;
@@ -17,6 +18,7 @@ import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Collections;
 
 public class VolleyballMatchSimulationController {
     @FXML private Label lblScore;
@@ -25,6 +27,7 @@ public class VolleyballMatchSimulationController {
     @FXML private Button btnAction;
     @FXML private Label matchHeader;
 
+    private int subsLeft = 2;
     private VolleyballLeague league;
     private VolleyballMatch match;
     private VolleyballTeam userTeam;
@@ -88,5 +91,15 @@ public class VolleyballMatchSimulationController {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
+    }
+
+    private void handleSubstitution(Player out, Player in) {
+        if (subsLeft > 0 && !in.isInjured()) {
+            Collections.swap(userTeam.getPlayers(),
+                    userTeam.getPlayers().indexOf(out),
+                    userTeam.getPlayers().indexOf(in));
+            subsLeft--;
+            System.out.println("Substitution successful. Subs remaining: " + subsLeft);
+        }
     }
 }
