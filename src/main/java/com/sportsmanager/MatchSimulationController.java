@@ -74,51 +74,36 @@ public class MatchSimulationController {
 
     @FXML
     private void handleManualSubstitution() {
-
-        if(subsLeft <= 0){
-            System.out.println("No substitutions remaining.");
+        if (subsLeft <= 0) {
+            lblMatchDetails.setText("No substitutions remaining!");
             return;
         }
 
         String starterName = cmbStarter.getValue();
         String subName = cmbSub.getValue();
 
-        if(starterName == null || subName == null){
-            return;
-        }
+        if (starterName == null || subName == null) return;
 
         Player out = null;
         Player in = null;
 
-        for(Player p : userTeam.getPlayers()){
-
-            if(p.getName().equals(starterName)){
-                out = p;
-            }
-
-            if(p.getName().equals(subName)){
-                in = p;
-            }
+        for (Player p : userTeam.getPlayers()) {
+            if (p.getName().equals(starterName)) out = p;
+            if (p.getName().equals(subName)) in = p;
         }
 
-        if(out != null && in != null){
-
+        if (out != null && in != null) {
             handleSubstitution(out, in);
 
-            lblMatchDetails.setText(
-                    "Substitution Made:\n"
-                            + out.getName()
-                            + " OUT\n"
-                            + in.getName()
-                            + " IN\n"
-                            + "Subs Left: "
-                            + subsLeft
-            );
+
+            lblMatchDetails.setText(String.format("SUBSTITUTION MADE:\n%s OUT\n%s IN\nSubs Remaining: %d",
+                    out.getName(), in.getName(), subsLeft));
+            cmbStarter.setValue(null);
+            cmbSub.setValue(null);
 
             refreshSubstitutionBoxes();
         }
     }
-
     @FXML
     private void HandleMatchProgress(ActionEvent event) throws IOException {
         if (state == 0){
@@ -142,10 +127,10 @@ public class MatchSimulationController {
 
             lblMatchDetails.setText("Final Score: " + activeMatch.getHomeScore() + " - " + activeMatch.getAwayScore());
             cmbTactics.setVisible(false);
-            btnAction.setText("Return to Dashboard");
-            state = 2;
             cmbStarter.setVisible(false);
             cmbSub.setVisible(false);
+            btnAction.setText("Return to Dashboard");
+            state = 2;
         } else if (state == 2) {
             league.simulateRestOfMatches(userTeam);
             league.advanceWeek();

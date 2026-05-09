@@ -76,26 +76,25 @@ public class VolleyballMatchSimulationController {
 
     @FXML
     private void handleManualSubstitution() {
-
-        if(subsLeft <= 0){
-            System.out.println("No substitutions remaining.");
-            return;
-        }
+        if (subsLeft <= 0) return;
 
         String starterName = cmbStarter.getValue();
         String subName = cmbSub.getValue();
 
-        if(starterName == null || subName == null){
-            return;
-        }
+        if (starterName == null || subName == null) return;
 
         Player out = null;
         Player in = null;
 
-        if(out != null && in != null){
+        for (Player p : userTeam.getPlayers()) {
+            if (p.getName().equals(starterName)) out = p;
+            if (p.getName().equals(subName)) in = p;
+        }
+
+        if (out != null && in != null) {
             handleSubstitution(out, in);
 
-            match.getSets().add(out.getName() + " OUT | " + in.getName() + " IN");
+            match.getSets().add("SUB: " + out.getName() + " OUT | " + in.getName() + " IN");
 
             cmbStarter.setValue(null);
             cmbSub.setValue(null);
