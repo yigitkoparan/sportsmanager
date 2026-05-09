@@ -106,7 +106,15 @@ public class MainDashboardController {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
         } else {
-            System.out.println("Season Finished!");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ChampionScreen.fxml"));
+            Parent root = loader.load();
+
+            ChampionScreenController controller = loader.getController();
+            controller.initData(this.league, this.userTeam);
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
         }
     }
 

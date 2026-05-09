@@ -1,6 +1,10 @@
 package com.sportsmanager;
 
 import com.sportsmanager.football.FootballLeague;
+import com.sportsmanager.framework.League;
+import com.sportsmanager.framework.Team;
+import com.sportsmanager.volleyball.VolleyballLeague;
+import com.sportsmanager.volleyball.VolleyballTeam;
 import com.sportsmanager.football.FootballTeam;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,39 +14,50 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import java.util.List;
 
 public class ChampionScreenController {
     @FXML private Label championName;
     @FXML private Label stats;
 
-    private FootballLeague league;
-    private FootballTeam userTeam;
+    private League league;
+    private Team userTeam;
 
-    public void initData(FootballLeague league,FootballTeam userTeam){
+    public void initData(League league, Team userTeam) {
         this.league = league;
         this.userTeam = userTeam;
+
         league.generateStanding();
 
-        FootballTeam champion = league.getTeams().get(0);
+        Team champion = null;
+        if (league instanceof com.sportsmanager.football.FootballLeague) {
+            champion = ((com.sportsmanager.football.FootballLeague) league).getTeams().get(0);
+        } else if (league instanceof com.sportsmanager.volleyball.VolleyballLeague) {
+            champion = ((com.sportsmanager.volleyball.VolleyballLeague) league).getTeams().get(0);
+        }
 
-        championName.setText("CHAMPION: " + champion.getTeamName() + "!");
-        stats.setText("Points: " + champion.getPoints() +
-                      "\nWins: " + champion.getWins() +
-                      "\nGoals: " + champion.getGoalsScored());
+        if (champion != null) {
+            championName.setText("CHAMPION: " + champion.getTeamName() + "!");
+
+            if (champion instanceof FootballTeam) {
+                FootballTeam ft = (FootballTeam) champion;
+                stats.setText("Points: " + ft.getPoints() +
+                        "\nWins: " + ft.getWins() +
+                        "\nGoals: " + ft.getGoalsScored());
+            } else if (champion instanceof VolleyballTeam) {
+                VolleyballTeam vt = (VolleyballTeam) champion;
+                stats.setText("Points: " + vt.getPoints() +
+                        "\nSets Won: " + vt.getWinSet() +
+                        "\nSets Lost: " + vt.getLoseSet());
+            }
+        }
     }
 
     @FXML
     private void handleNextSeason(ActionEvent event) throws Exception {
         league.setCurrentWeek(1);
 
-        for(FootballTeam team : league.getTeams()){
-            team.setPoints(0);
-            team.setWins(0);
-            team.setLosses(0);
-            team.setDraw(0);
-            team.setGoalsScored(0);
-            team.setGamesPlayed(0);
-        }
+        resetLeagueTeams();
 
         league.generateFullSeasonFixture();
 
@@ -54,5 +69,32 @@ public class ChampionScreenController {
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
+    }
+
+    private void resetLeagueTeams() {
+        List<? extends Team> allTeams;
+
+        if (league instanceof FootballLeague) {
+            allTeams = ((FootballLeague) league).getTeams();
+        } else {
+            allTeams = ((VolleyballLeague) league).getTeams();
+        }
+
+        for (Team t : allTeams) {
+            t.setPoints(0);
+            t.setWins(0);
+            t.setLosses(0);
+            t.setGamesPlayed(0);
+
+            if (t instanceof FootballTeam) {
+                FootballTeam ft = (FootballTeam) t;
+                ft.setDraw(0);
+                ft.setGoalsScored(0);
+            } else if (t instanceof VolleyballTeam) {
+                VolleyballTeam vt = (VolleyballTeam) t;
+                vt.setWinSet(0);
+                vt.setLoseSet(0);
+            }
+        }
     }
 }
