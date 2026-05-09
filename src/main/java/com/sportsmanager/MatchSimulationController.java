@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.util.Collections;
 
 public class MatchSimulationController {
+    @FXML private ComboBox<String> cmbStarter;
+    @FXML private ComboBox<String> cmbSub;
     @FXML private Label lblTeams;
     @FXML private Label lblMatchDetails;
     @FXML private ComboBox<String> cmbTactics;
@@ -43,6 +45,78 @@ public class MatchSimulationController {
 
         cmbTactics.getItems().addAll("Offense", "Defense", "Balanced");
         cmbTactics.setValue("Balanced");
+        refreshSubstitutionBoxes();
+    }
+
+    private void refreshSubstitutionBoxes() {
+
+        cmbStarter.getItems().clear();
+        cmbSub.getItems().clear();
+
+        for(int i = 0; i < 11; i++){
+
+            Player p = userTeam.getPlayers().get(i);
+
+            if(!p.isInjured()){
+                cmbStarter.getItems().add(p.getName());
+            }
+        }
+
+        for(int i = 11; i < userTeam.getPlayers().size(); i++){
+
+            Player p = userTeam.getPlayers().get(i);
+
+            if(!p.isInjured()){
+                cmbSub.getItems().add(p.getName());
+            }
+        }
+    }
+
+    @FXML
+    private void handleManualSubstitution() {
+
+        if(subsLeft <= 0){
+            System.out.println("No substitutions remaining.");
+            return;
+        }
+
+        String starterName = cmbStarter.getValue();
+        String subName = cmbSub.getValue();
+
+        if(starterName == null || subName == null){
+            return;
+        }
+
+        Player out = null;
+        Player in = null;
+
+        for(Player p : userTeam.getPlayers()){
+
+            if(p.getName().equals(starterName)){
+                out = p;
+            }
+
+            if(p.getName().equals(subName)){
+                in = p;
+            }
+        }
+
+        if(out != null && in != null){
+
+            handleSubstitution(out, in);
+
+            lblMatchDetails.setText(
+                    "Substitution Made:\n"
+                            + out.getName()
+                            + " OUT\n"
+                            + in.getName()
+                            + " IN\n"
+                            + "Subs Left: "
+                            + subsLeft
+            );
+
+            refreshSubstitutionBoxes();
+        }
     }
 
     @FXML
@@ -54,6 +128,8 @@ public class MatchSimulationController {
             cmbTactics.setVisible(true);
             btnAction.setText("Apply Tactic & Play 2nd Half");
             state = 1;
+            cmbStarter.setVisible(true);
+            cmbSub.setVisible(true);
         }else if(state == 1){
             String chosenTacticName = cmbTactics.getValue();
             int modifier = 0;
@@ -68,6 +144,8 @@ public class MatchSimulationController {
             cmbTactics.setVisible(false);
             btnAction.setText("Return to Dashboard");
             state = 2;
+            cmbStarter.setVisible(false);
+            cmbSub.setVisible(false);
         } else if (state == 2) {
             league.simulateRestOfMatches(userTeam);
             league.advanceWeek();

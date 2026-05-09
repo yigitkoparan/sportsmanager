@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.util.Collections;
 
 public class VolleyballMatchSimulationController {
+    @FXML private ComboBox<String> cmbStarter;
+    @FXML private ComboBox<String> cmbSub;
     @FXML private Label lblScore;
     @FXML private ListView<String> setList;
     @FXML private ComboBox<String> cmbTactics;
@@ -45,6 +47,75 @@ public class VolleyballMatchSimulationController {
 
         lblScore.setText("0 - 0");
         btnAction.setText("Play First Set");
+        handleManualSubstitution();
+    }
+
+    private void refreshSubstitutionBoxes() {
+
+        cmbStarter.getItems().clear();
+        cmbSub.getItems().clear();
+
+        for(int i = 0; i < 6; i++){
+
+            Player p = userTeam.getPlayers().get(i);
+
+            if(!p.isInjured()){
+                cmbStarter.getItems().add(p.getName());
+            }
+        }
+
+        for(int i = 6; i < userTeam.getPlayers().size(); i++){
+
+            Player p = userTeam.getPlayers().get(i);
+
+            if(!p.isInjured()){
+                cmbSub.getItems().add(p.getName());
+            }
+        }
+    }
+
+    @FXML
+    private void handleManualSubstitution() {
+
+        if(subsLeft <= 0){
+            System.out.println("No substitutions remaining.");
+            return;
+        }
+
+        String starterName = cmbStarter.getValue();
+        String subName = cmbSub.getValue();
+
+        if(starterName == null || subName == null){
+            return;
+        }
+
+        Player out = null;
+        Player in = null;
+
+        for(Player p : userTeam.getPlayers()){
+
+            if(p.getName().equals(starterName)){
+                out = p;
+            }
+
+            if(p.getName().equals(subName)){
+                in = p;
+            }
+        }
+
+        if(out != null && in != null){
+
+            handleSubstitution(out, in);
+
+            setList.getItems().add(
+                    out.getName()
+                            + " OUT | "
+                            + in.getName()
+                            + " IN"
+            );
+
+            refreshSubstitutionBoxes();
+        }
     }
 
     @FXML
