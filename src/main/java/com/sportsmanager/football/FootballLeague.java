@@ -92,15 +92,20 @@ public class FootballLeague extends League implements Serializable {
         int totalRounds = numTeams - 1;
         int matchesPerRound = numTeams / 2;
 
+        List<List<FootballMatch>> firstHalf = new ArrayList<>();
+
+
         for (int round = 0; round < totalRounds; round++) {
+
             List<FootballMatch> roundMatches = new ArrayList<>();
 
             for (int matchIdx = 0; matchIdx < matchesPerRound; matchIdx++) {
+
                 FootballTeam home = rotatedTeams.get(matchIdx);
                 FootballTeam away = rotatedTeams.get(numTeams - 1 - matchIdx);
 
-
-                if (!home.getTeamName().equals("BYE") && !away.getTeamName().equals("BYE")) {
+                if (!home.getTeamName().equals("BYE")
+                        && !away.getTeamName().equals("BYE")) {
 
                     if (round % 2 == 1) {
                         roundMatches.add(new FootballMatch(home, away));
@@ -109,13 +114,32 @@ public class FootballLeague extends League implements Serializable {
                     }
                 }
             }
-            seasonSchedule.add(roundMatches);
+
+            firstHalf.add(roundMatches);
 
             FootballTeam lastTeam = rotatedTeams.get(numTeams - 1);
+
             for (int i = numTeams - 1; i > 1; i--) {
                 rotatedTeams.set(i, rotatedTeams.get(i - 1));
             }
+
             rotatedTeams.set(1, lastTeam);
+        }
+
+
+        seasonSchedule.addAll(firstHalf);
+
+
+        for (List<FootballMatch> round : firstHalf) {
+
+            List<FootballMatch> reverseRound = new ArrayList<>();
+
+            for (FootballMatch match : round) {
+
+                reverseRound.add(new FootballMatch(match.getAwayTeam(), match.getHomeTeam()));
+            }
+
+            seasonSchedule.add(reverseRound);
         }
     }
 
