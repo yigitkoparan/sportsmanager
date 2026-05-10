@@ -47,20 +47,24 @@ public class FootballLeague extends League implements Serializable {
 
     @Override
     public void generateTeam() {
+        int playerCounter = 0;
         for(int i = 0; i < teamNumber; i++){
-            teams.add(new FootballTeam(teamNames[i]));
+            FootballTeam currentTeam = new FootballTeam(teamNames[i]);
+
             for(int j = 0; j < 18; j++){
-                teams.get(i).addPlayer(players.get(i+j));
+                // Add the next unique player and increment the counter
+                currentTeam.addPlayer(players.get(playerCounter));
+                playerCounter++;
             }
+            teams.add(currentTeam);
         }
     }
 
     @Override
     public void generatePlayer() {
-        for(int i = 0; i < teamNumber; i++){
-            for(int j = 0; j < 18; j++){
-                players.add(new FootballPlayer("player"+i+j, rand.nextInt(15)+20));
-            }
+        players.clear();
+        for(int i = 0; i < teamNumber * 18; i++){
+            players.add(new FootballPlayer("Player " + i, rand.nextInt(15) + 20));
         }
     }
 
