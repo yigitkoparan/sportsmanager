@@ -77,6 +77,7 @@ public class VolleyballLeague extends League implements Serializable {
 
     public void generateFullSeasonFixture() {
         seasonSchedule.clear();
+
         List<VolleyballTeam> rotatedTeams = new ArrayList<>(teams);
 
         if (rotatedTeams.size() % 2 != 0) {
@@ -87,21 +88,54 @@ public class VolleyballLeague extends League implements Serializable {
         int totalRounds = numTeams - 1;
         int matchesPerRound = numTeams / 2;
 
-        for (int round = 0; round < totalRounds; round++) {
-            List<VolleyballMatch> roundMatches = new ArrayList<>();
-            for (int i = 0; i < matchesPerRound; i++) {
-                VolleyballTeam home = rotatedTeams.get(i);
-                VolleyballTeam away = rotatedTeams.get(numTeams - 1 - i);
+        List<List<VolleyballMatch>> firstHalf = new ArrayList<>();
 
-                if (!home.getTeamName().equals("BYE") && !away.getTeamName().equals("BYE")) {
-                    roundMatches.add(new VolleyballMatch(home, away));
+
+        for (int round = 0; round < totalRounds; round++) {
+
+            List<VolleyballMatch> roundMatches = new ArrayList<>();
+
+            for (int matchIdx = 0; matchIdx < matchesPerRound; matchIdx++) {
+
+                VolleyballTeam home = rotatedTeams.get(matchIdx);
+                VolleyballTeam away = rotatedTeams.get(numTeams - 1 - matchIdx);
+
+                if (!home.getTeamName().equals("BYE")
+                        && !away.getTeamName().equals("BYE")) {
+
+                    if (round % 2 == 1) {
+                        roundMatches.add(new VolleyballMatch(home, away));
+                    } else {
+                        roundMatches.add(new VolleyballMatch(away, home));
+                    }
                 }
             }
-            seasonSchedule.add(roundMatches);
+
+            firstHalf.add(roundMatches);
+
+            VolleyballTeam lastTeam = rotatedTeams.get(numTeams - 1);
+
+            for (int i = numTeams - 1; i > 1; i--) {
+                rotatedTeams.set(i, rotatedTeams.get(i - 1));
+            }
+
+            rotatedTeams.set(1, lastTeam);
+        }
 
 
-            VolleyballTeam last = rotatedTeams.remove(numTeams - 1);
-            rotatedTeams.add(1, last);
+        seasonSchedule.addAll(firstHalf);
+
+
+        for (List<VolleyballMatch> round : firstHalf) {
+
+            List<VolleyballMatch> reverseRound = new ArrayList<>();
+
+            for (VolleyballMatch match : round) {
+
+                reverseRound.add(new VolleyballMatch(match.getAwayTeam(), match.getHomeTeam()));
+            }
+
+            seasonSchedule.add(reverseRound);
         }
     }
 
