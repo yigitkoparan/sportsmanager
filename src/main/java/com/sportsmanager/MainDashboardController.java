@@ -52,7 +52,7 @@ public class MainDashboardController {
         this.userTeam = userTeam;
 
         UserTeamName.setText(userTeam.getTeamName());
-        LeagueName.setText(league.getLeagueName());
+        LeagueName.setText(league.getLeagueName() + "\n(Week: " + league.getCurrentWeek() + ")");
 
         teamNames.setText("Team");
         points.setText("Points");
