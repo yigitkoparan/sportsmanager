@@ -10,7 +10,23 @@ import java.util.Random;
         protected boolean isInjured;
         protected int injuryDuration = 0;
         protected int skillLevel;
+        protected String position;
         Random r =new Random();
+
+        public Player(String name, int age) {
+            this.name = name;
+            this.age = age;
+            this.skillLevel =r.nextInt(20)+1 ;
+            this.isInjured = false;
+        }
+
+        public String getPosition() {
+            return position;
+        }
+
+        public void setPosition(String position) {
+            this.position = position;
+        }
 
         public void healOneMatch() {
             if (injuryDuration > 0) {
@@ -34,7 +50,6 @@ import java.util.Random;
             this.age = age;
         }
 
-
         public int getSkillLevel() {
             return skillLevel;
         }
@@ -43,12 +58,6 @@ import java.util.Random;
             this.skillLevel = skillLevel;
         }
 
-        public Player(String name, int age) {
-            this.name = name;
-            this.age = age;
-            this.skillLevel =r.nextInt(20)+1 ;
-            this.isInjured = false;
-        }
 
         public abstract int calculatePerformance();
 

@@ -63,11 +63,13 @@ public class FootballLeague extends League implements Serializable {
     @Override
     public void generatePlayer() {
         players.clear();
+        String[] positions = {"GK", "GK", "DEF", "DEF", "DEF", "DEF", "DEF", "DEF", "MID", "MID", "MID", "MID", "MID", "MID", "ST", "ST", "ST", "ST"};
+
         for(int i = 0; i < teamNumber * 18; i++){
-            players.add(new FootballPlayer("Player " + i, rand.nextInt(15) + 20));
+            String assignedPos = positions[i % 18];
+            players.add(new FootballPlayer("Player " + i + " (" + assignedPos + ")", rand.nextInt(15) + 20, assignedPos));
         }
     }
-
 
     @Override
     public void generateStanding() {

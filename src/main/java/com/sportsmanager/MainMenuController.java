@@ -2,6 +2,8 @@ package com.sportsmanager;
 
 import com.sportsmanager.football.FootballLeague;
 import com.sportsmanager.football.FootballTeam;
+import com.sportsmanager.volleyball.VolleyballLeague;
+import com.sportsmanager.volleyball.VolleyballTeam;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -49,7 +51,7 @@ public class MainMenuController {
                 if (loadedLeague instanceof FootballLeague) {
                     loadFootball(event, (FootballLeague) loadedLeague, (FootballTeam) loadedUserTeam);
                 }else{
-
+                    loadVolleyball(event, (VolleyballLeague) loadedLeague, (VolleyballTeam) loadedUserTeam);
                 }
             } catch (Exception e) {
                 System.err.println("Error loading file: " + e.getMessage());
@@ -58,6 +60,17 @@ public class MainMenuController {
     }
 
     private void loadFootball(ActionEvent event, FootballLeague league, FootballTeam team) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/MainDashboard.fxml"));
+        Parent root = loader.load();
+
+        MainDashboardController controller = loader.getController();
+        controller.initDate(league, team);
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+    }
+
+    private void loadVolleyball(ActionEvent event, VolleyballLeague league, VolleyballTeam team) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/MainDashboard.fxml"));
         Parent root = loader.load();
 

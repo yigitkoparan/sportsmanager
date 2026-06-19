@@ -2,6 +2,7 @@ package com.sportsmanager;
 
 import com.sportsmanager.football.FootballLeague;
 import com.sportsmanager.framework.League;
+import com.sportsmanager.framework.Player;
 import com.sportsmanager.framework.Team;
 import com.sportsmanager.volleyball.VolleyballLeague;
 import com.sportsmanager.volleyball.VolleyballTeam;

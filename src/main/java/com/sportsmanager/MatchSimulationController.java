@@ -104,6 +104,7 @@ public class MatchSimulationController {
             refreshSubstitutionBoxes();
         }
     }
+
     @FXML
     private void HandleMatchProgress(ActionEvent event) throws IOException {
         if (state == 0){

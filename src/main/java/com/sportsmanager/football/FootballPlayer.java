@@ -9,8 +9,9 @@ public class FootballPlayer extends Player implements Serializable {
         private int goals;
         private int assists;
 
-        public FootballPlayer(String name, int age) {
+        public FootballPlayer(String name, int age,String position) {
             super(name, age);
+            this.position = position;
             this.goals = 0;
             this.assists = 0;
         }
